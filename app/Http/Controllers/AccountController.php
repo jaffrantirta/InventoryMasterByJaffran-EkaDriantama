@@ -2,64 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AccountRequest;
 use App\Models\Account;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AccountController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function show(Request $request): Response
     {
-        //
+        return Inertia::render('Account/Show', [
+            'status' => session('status'),
+            'account' => Account::all()
+        ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(AccountRequest $request): RedirectResponse
     {
-        //
+        Account::create($request->validated())->save();
+        return Redirect::route('account.show');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function update(AccountRequest $request): RedirectResponse
     {
-        //
+        $request->account()->fill($request->validated());
+        $request->account()->save();
+
+        return Redirect::route('account.show');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Account $account)
+    public function destroy(Request $request): RedirectResponse
     {
-        //
-    }
+        $account->delete();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Account $account)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Account $account)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Account $account)
-    {
-        //
+        return Redirect::route('account.show');
     }
 }
