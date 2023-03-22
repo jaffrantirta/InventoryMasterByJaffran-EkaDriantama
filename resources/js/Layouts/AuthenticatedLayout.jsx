@@ -24,7 +24,7 @@ export default function Authenticated({ user, header, children }) {
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Dashboard
                                 </NavLink>
-                                <NavLink href={route('account.show')} active={route().current('account.show')}>
+                                <NavLink href={route('account.index')} active={route().current('account.index')}>
                                     Akun
                                 </NavLink>
                             </div>
@@ -98,7 +98,7 @@ export default function Authenticated({ user, header, children }) {
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Dashboard
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('account.show')} active={route().current('account.show')}>
+                        <ResponsiveNavLink href={route('account.index')} active={route().current('account.index')}>
                             Akun
                         </ResponsiveNavLink>
                     </div>

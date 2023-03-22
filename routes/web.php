@@ -35,10 +35,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/accounts', [AccountController::class, 'show'])->name('account.show');
+    Route::get('/accounts', [AccountController::class, 'index'])->name('account.index');
     Route::patch('/accounts', [AccountController::class, 'update'])->name('account.update');
     Route::post('/accounts', [AccountController::class, 'store'])->name('account.store');
-    Route::delete('/accounts', [AccountController::class, 'destroy'])->name('account.destroy');
+    Route::delete('/accounts/{account}', [AccountController::class, 'destroy'])->name('account.destroy');
 });
 
 require __DIR__.'/auth.php';

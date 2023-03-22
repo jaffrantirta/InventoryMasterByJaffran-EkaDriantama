@@ -5,9 +5,10 @@ import { Head, useForm } from '@inertiajs/react';
 import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 export default function Show({ auth, status, account }) {
+    const bodyRef = useRef(null)
     const [showModel, setShowModel] = useState(false)
     const [isUpdate, setIsUpdate] = useState(false)
     const [isDelete, setIsDelete] = useState(false)
@@ -21,38 +22,29 @@ export default function Show({ auth, status, account }) {
         e.preventDefault();
         if (isUpdate) {
             patch(route('account.update', { id: accoundId }));
-            reset()
-            setShowModel(false)
-            setIsUpdate(false)
+            resetSetting('Berhasil edit data.')
         } else if (isDelete) {
-            destroy(route('account.destroy'), {
-                id: accoundId,
-                preserveScroll: true,
-                onSuccess: () => {
-                    setMessage({ type: 'success', message: 'Berhasil hapus akun.', className: 'text-green-600' })
-                    setShowModel(false)
-                    setIsDelete(false)
-                },
-                onError: () => {
-                    setMessage({ type: 'error', message: `Ups! Sepertinya ada kesalahan`, className: 'text-red-600' })
-                }
-            });
+            destroy(route('account.destroy', { id: accoundId }));
+            resetSetting('Berhasil hapus data.')
         } else {
             post(route('account.store'), {
                 preserveScroll: true,
-                onSuccess: () => {
-                    setMessage({ type: 'success', message: 'Berhasil tambah data.', className: 'text-green-600' })
-                    reset()
-                    setShowModel(false)
-                },
-                onError: () => {
-                    setMessage({ type: 'error', message: `Ups! Sepertinya ada kesalahan`, className: 'text-red-600' })
-                }
+                onSuccess: () => resetSetting('Berhasil tambah data.'),
+                onError: () => setMessage({ message: `Ups! Sepertinya ada kesalahan`, className: 'text-red-600' })
             });
         }
     };
+    const resetSetting = (message, isError = false) => {
+        reset()
+        setShowModel(false)
+        setIsUpdate(false)
+        setIsDelete(false)
+        setMessage({ message: message, className: isError ? 'text-red-600' : 'text-green-600' })
+        bodyRef.current.scrollTop = 0
+    }
     return (
         <AuthenticatedLayout
+            ref={bodyRef}
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Akun</h2>}
         >
@@ -61,9 +53,9 @@ export default function Show({ auth, status, account }) {
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
             {message.type !== null && (
                 <div className="p-6 text-xl mb-4 font-medium">
-                    <div className='bg-slate-200 p-6 rounded-3xl flex justify-between'>
+                    <div className='bg-slate-300 dark:bg-slate-200 p-6 rounded-3xl flex justify-between'>
                         <p className={`text-green-600 ${message.className}`}>{message.message}</p>
-                        <button onClick={() => setMessage({ type: null, message: null, className: null })}>X</button>
+                        <button className='hover:bg-slate-300 p-1 px-2 rounded-full' onClick={() => setMessage({ type: null, message: null, className: null })}>X</button>
                     </div>
                 </div>)}
 

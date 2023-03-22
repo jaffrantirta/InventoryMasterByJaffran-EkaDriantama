@@ -14,7 +14,7 @@ use Inertia\Response;
 
 class AccountController extends Controller
 {
-    public function show(Request $request): Response
+    public function index(): Response
     {
         return Inertia::render('Account/Show', [
             'status' => session('status'),
@@ -24,16 +24,16 @@ class AccountController extends Controller
     public function store(AccountRequest $request): RedirectResponse
     {
         Account::create($request->validated())->save();
-        return Redirect::route('account.show');
+        return Redirect::route('account.index');
     }
     public function update(AccountRequest $request): RedirectResponse
     {
         Account::find($request->id)->update($request->validated());
-        return Redirect::route('account.show');
+        return Redirect::route('account.index');
     }
-    public function destroy(Account $request): RedirectResponse
+    public function destroy($id): RedirectResponse
     {
-        $request->delete();
-        return Redirect::route('account.show');
+        Account::find($id)->delete();
+        return Redirect::route('account.index');
     }
 }
