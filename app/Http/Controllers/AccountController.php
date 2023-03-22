@@ -28,15 +28,12 @@ class AccountController extends Controller
     }
     public function update(AccountRequest $request): RedirectResponse
     {
-        $request->account()->fill($request->validated());
-        $request->account()->save();
-
+        Account::find($request->id)->update($request->validated());
         return Redirect::route('account.show');
     }
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Account $request): RedirectResponse
     {
-        $account->delete();
-
+        $request->delete();
         return Redirect::route('account.show');
     }
 }
