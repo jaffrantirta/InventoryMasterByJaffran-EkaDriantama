@@ -6,40 +6,36 @@ import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
 import { useRef, useState } from 'react';
+import { Transition } from '@headlessui/react';
 
 export default function Show({ auth, status, account }) {
     const bodyRef = useRef(null)
     const [showModel, setShowModel] = useState(false)
     const [isUpdate, setIsUpdate] = useState(false)
     const [isDelete, setIsDelete] = useState(false)
-    const [message, setMessage] = useState({ type: null, message: null, className: null })
     const [accoundId, setAccoundId] = useState(0)
-    const { data, setData, post, patch, delete: destroy, processing, errors, reset } = useForm({
+    const { data, setData, post, patch, delete: destroy, processing, errors, reset, recentlySuccessful } = useForm({
         name: '',
         type: '',
     });
     const submit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         if (isUpdate) {
-            patch(route('account.update', { id: accoundId }));
-            resetSetting('Berhasil edit data.')
+            patch(route('account.update', { id: accoundId }))
+            resetSetting()
         } else if (isDelete) {
-            destroy(route('account.destroy', { id: accoundId }));
-            resetSetting('Berhasil hapus data.')
+            destroy(route('account.destroy', { id: accoundId }))
+            resetSetting()
         } else {
-            post(route('account.store'), {
-                preserveScroll: true,
-                onSuccess: () => resetSetting('Berhasil tambah data.'),
-                onError: () => setMessage({ message: `Ups! Sepertinya ada kesalahan`, className: 'text-red-600' })
-            });
+            post(route('account.store'))
+            resetSetting()
         }
     };
-    const resetSetting = (message, isError = false) => {
+    const resetSetting = () => {
         reset()
         setShowModel(false)
         setIsUpdate(false)
         setIsDelete(false)
-        setMessage({ message: message, className: isError ? 'text-red-600' : 'text-green-600' })
         bodyRef.current.scrollTop = 0
     }
     return (
@@ -51,35 +47,38 @@ export default function Show({ auth, status, account }) {
             <Head title="Akun" />
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-            {message.type !== null && (
-                <div className="p-6 text-xl mb-4 font-medium">
-                    <div className='bg-slate-300 dark:bg-slate-200 p-6 rounded-3xl flex justify-between'>
-                        <p className={`text-green-600 ${message.className}`}>{message.message}</p>
-                        <button className='hover:bg-slate-300 p-1 px-2 rounded-full' onClick={() => setMessage({ type: null, message: null, className: null })}>X</button>
-                    </div>
-                </div>)}
+            <div className='p-5'>
+                <Transition
+                    show={recentlySuccessful}
+                    enterFrom="opacity-0"
+                    leaveTo="opacity-0"
+                    className="transition ease-in-out bg-slate-200 p-3 rounded-3xl"
+                >
+                    <p className="text-slate-900 dark:text-slate-600 text-center font-bold text-xl">Sukses!</p>
+                </Transition>
+            </div>
 
             <div className='p-10 dark:text-slate-200'>
                 <div className='flex justify-end'>
                     <PrimaryButton className='my-5 w-full md:w-fit' onClick={() => setShowModel(true)}><p className='w-full text-center'>Tambah</p></PrimaryButton>
                 </div>
-                <table className=' w-full'>
-                    <thead className='border-2 border-slate-700 dark:border-white'>
+                <table className='w-full'>
+                    <thead className=''>
                         <tr className='text-center font-bold text-xl'>
-                            <td className='border-2 border-slate-700 dark:border-white p-5'>No.</td>
-                            <td className='border-2 border-slate-700 dark:border-white p-5'>Nama</td>
-                            <td className='border-2 border-slate-700 dark:border-white p-5'>Tipe</td>
-                            <td className='border-2 border-slate-700 dark:border-white p-5'>Aksi</td>
+                            <td className='p-1'><div className='rounded-full p-5 bg-slate-600 dark:bg-slate-300 text-slate-100 dark:text-slate-900'>No.</div></td>
+                            <td className='p-1'><div className='rounded-full p-5 bg-slate-600 dark:bg-slate-300 text-slate-100 dark:text-slate-900'>Nama</div></td>
+                            <td className='p-1'><div className='rounded-full p-5 bg-slate-600 dark:bg-slate-300 text-slate-100 dark:text-slate-900'>Tipe</div></td>
+                            <td className='p-1'><div className='rounded-full p-5 bg-slate-600 dark:bg-slate-300 text-slate-100 dark:text-slate-900'>Aksi</div></td>
                         </tr>
                     </thead>
                     <tbody>
                         {account.length > 0 ? account.map((item, index) => {
                             return (
                                 <tr key={index}>
-                                    <td className='border-2 border-slate-700 dark:border-white p-3 text-center'>{index + 1}</td>
-                                    <td className='border-2 border-slate-700 dark:border-white p-3'>{item.name}</td>
-                                    <td className='border-2 border-slate-700 dark:border-white p-3'>{item.type}</td>
-                                    <td className='border-2 border-slate-700 dark:border-white p-3 text-center'>
+                                    <td className='p-1'><div className='border-b p-3 text-center'>{index + 1}</div></td>
+                                    <td className='p-1'><div className='border-b p-3'>{item.name}</div></td>
+                                    <td className='p-1'><div className='border-b p-3'>{item.type}</div></td>
+                                    <td className='p-1'><div className='border-b p-2 text-center'>
                                         <div className='flex gap-3 justify-center'>
                                             <PrimaryButton onClick={() => {
                                                 setData({
@@ -99,10 +98,11 @@ export default function Show({ auth, status, account }) {
                                                 setShowModel(true)
                                             }}>Hapus</PrimaryButton>
                                         </div>
+                                    </div>
                                     </td>
                                 </tr>
                             )
-                        }) : <p>Tidak ada data.</p>}
+                        }) : <p className='text-xl'>Tidak ada data.</p>}
                     </tbody>
                 </table>
             </div>
