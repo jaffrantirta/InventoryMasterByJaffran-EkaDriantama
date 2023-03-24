@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('general_journal_id')->unsigned();
             $table->bigInteger('account_id')->unsigned();
             $table->enum('type', ['in', 'out']);
-            $table->float('amount');
+            $table->double('amount');
             $table->string('info')->nullable();
             $table->timestamps();
             $table->foreign('general_journal_id')->references('id')->on('general_journals')->onDelete('cascade');

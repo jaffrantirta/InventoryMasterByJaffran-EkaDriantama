@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ItemController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,6 +40,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/accounts', [AccountController::class, 'update'])->name('account.update');
     Route::post('/accounts', [AccountController::class, 'store'])->name('account.store');
     Route::delete('/accounts/{account}', [AccountController::class, 'destroy'])->name('account.destroy');
+
+    Route::get('/items', [ItemController::class, 'index'])->name('item.index');
+    Route::patch('/items', [ItemController::class, 'update'])->name('item.update');
+    Route::post('/items', [ItemController::class, 'store'])->name('item.store');
+    Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('item.destroy');
 });
 
 require __DIR__.'/auth.php';

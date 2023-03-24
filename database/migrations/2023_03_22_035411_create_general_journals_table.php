@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('general_journals', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->float('debit');
-            $table->float('credit');
+            $table->double('debit');
+            $table->double('credit');
             $table->string('info')->nullable();
             $table->timestamps();
         });

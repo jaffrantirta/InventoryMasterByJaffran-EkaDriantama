@@ -27,6 +27,9 @@ export default function Authenticated({ user, header, children }) {
                                 <NavLink href={route('account.index')} active={route().current('account.index')}>
                                     Akun
                                 </NavLink>
+                                <NavLink href={route('item.index')} active={route().current('item.index')}>
+                                    Barang
+                                </NavLink>
                             </div>
                         </div>
 

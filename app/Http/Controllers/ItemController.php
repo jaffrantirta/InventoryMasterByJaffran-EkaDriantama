@@ -3,63 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Http\Requests\ItemRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $page = $request->has('page') ? $request->input('page') : 1;
+        return Inertia::render('Item/Show', [
+            'status' => session('status'),
+            'items' => Item::latest()->paginate(5, ['*'], 'page', $page)
+        ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(ItemRequest $request)
     {
-        //
+        Item::create($request->validated())->save();
+        return Redirect::route('item.index');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function update(ItemRequest $request): RedirectResponse
     {
-        //
+        Item::find($request->id)->update($request->validated());
+        return Redirect::route('item.index');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Item $item)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Item $item)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Item $item)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Item $item)
     {
-        //
+        $item->delete();
+        return Redirect::route('item.index');
     }
 }

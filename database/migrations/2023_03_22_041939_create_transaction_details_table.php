@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('cash_id')->unsigned();
             $table->bigInteger('item_id')->unsigned();
             $table->integer('qty');
-            $table->float('amount');
+            $table->double('amount');
             $table->timestamps();
             $table->foreign('cash_id')->references('id')->on('cashes')->onDelete('cascade');
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
