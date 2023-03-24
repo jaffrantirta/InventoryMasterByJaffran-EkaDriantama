@@ -1,10 +1,6 @@
 import PrimaryButton from '@/Components/PrimaryButton';
-import Modal from '@/Components/Modal';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm } from '@inertiajs/react';
-import TextInput from '@/Components/TextInput';
-import InputLabel from '@/Components/InputLabel';
-import InputError from '@/Components/InputError';
 import { useRef, useState } from 'react';
 import { Transition } from '@headlessui/react';
 import Table from '@/Pages/Account/Partials/Table';

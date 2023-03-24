@@ -14,13 +14,14 @@ use Inertia\Response;
 
 class AccountController extends Controller
 {
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $page = $request->has('page') ? $request->input('page') : 1;
         return Inertia::render('Account/Show', [
             'status' => session('status'),
-            'accounts' => Account::latest()->get()
+            'accounts' => Account::latest()->paginate(10, ['*'], 'page', $page)
         ]);
-    }
+    }    
     public function store(AccountRequest $request): RedirectResponse
     {
         Account::create($request->validated())->save();
