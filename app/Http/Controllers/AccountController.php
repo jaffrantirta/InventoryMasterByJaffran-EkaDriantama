@@ -19,7 +19,7 @@ class AccountController extends Controller
         $page = $request->has('page') ? $request->input('page') : 1;
         return Inertia::render('Account/Show', [
             'status' => session('status'),
-            'accounts' => Account::latest()->paginate(10, ['*'], 'page', $page)
+            'accounts' => Account::latest()->paginate(5, ['*'], 'page', $page)
         ]);
     }    
     public function store(AccountRequest $request): RedirectResponse

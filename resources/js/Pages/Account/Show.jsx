@@ -97,7 +97,7 @@ export default function Show({ auth, status, accounts }) {
                 showModel={showModel}
                 onClick={e => onClickHandle(e)}
             />
-            {accounts.length === 0 ? <p className='text-xl my-10 text-center dark:text-white'>Tidak ada data.</p> : <></>}
+            {accounts.data.length === 0 ? <p className='text-xl my-10 text-center dark:text-white'>Tidak ada data.</p> : <></>}
         </AuthenticatedLayout>
     );
 }
