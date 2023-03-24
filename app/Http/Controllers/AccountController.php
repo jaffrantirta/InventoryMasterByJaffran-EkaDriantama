@@ -18,7 +18,7 @@ class AccountController extends Controller
     {
         return Inertia::render('Account/Show', [
             'status' => session('status'),
-            'account' => Account::latest()->get()
+            'accounts' => Account::latest()->get()
         ]);
     }
     public function store(AccountRequest $request): RedirectResponse

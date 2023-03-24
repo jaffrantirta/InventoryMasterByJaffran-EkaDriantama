@@ -7,8 +7,10 @@ import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
 import { useRef, useState } from 'react';
 import { Transition } from '@headlessui/react';
+import Table from '@/Pages/Account/Partials/Table';
+import ModalAccount from './Partials/ModalAccount';
 
-export default function Show({ auth, status, account }) {
+export default function Show({ auth, status, accounts }) {
     const bodyRef = useRef(null)
     const [showModel, setShowModel] = useState(false)
     const [isUpdate, setIsUpdate] = useState(false)
@@ -20,23 +22,44 @@ export default function Show({ auth, status, account }) {
     });
     const submit = (e) => {
         e.preventDefault()
-        if (isUpdate) {
-            patch(route('account.update', { id: accoundId }))
-            resetSetting()
-        } else if (isDelete) {
-            destroy(route('account.destroy', { id: accoundId }))
-            resetSetting()
-        } else {
-            post(route('account.store'))
-            resetSetting()
-        }
+        if (isUpdate) patch(route('account.update', { id: accoundId }))
+        if (isDelete) destroy(route('account.destroy', { id: accoundId }))
+        if (!isUpdate && !isDelete) post(route('account.store'))
+        resetSetting()
     };
     const resetSetting = () => {
         reset()
         setShowModel(false)
         setIsUpdate(false)
         setIsDelete(false)
+        setAccoundId(0)
         bodyRef.current.scrollTop = 0
+    }
+    const onClickHandle = (e, item) => {
+        if (e === 'edit') {
+            setData({
+                name: item.name,
+                type: item.type,
+            });
+            setAccoundId(item.id)
+            setIsUpdate(true);
+            setShowModel(true);
+        }
+        if (e === 'delete') {
+            setIsDelete(true)
+            setAccoundId(item.id)
+            setShowModel(true)
+        }
+        if (e === 'cancel') {
+            setShowModel(false)
+            setIsDelete(false)
+            setIsUpdate(false)
+        }
+    }
+
+    const onChangeHandle = (e) => {
+        if (e.field === 'name') setData('name', e.value)
+        if (e.field === 'type') setData('type', e.value)
     }
     return (
         <AuthenticatedLayout
@@ -62,100 +85,23 @@ export default function Show({ auth, status, account }) {
                 <div className='flex justify-end'>
                     <PrimaryButton className='my-5 w-full md:w-fit' onClick={() => setShowModel(true)}><p className='w-full text-center'>Tambah</p></PrimaryButton>
                 </div>
-                <table className='w-full'>
-                    <thead className=''>
-                        <tr className='text-center font-bold text-xl'>
-                            <td className='p-1'><div className='rounded-full p-5 bg-slate-600 dark:bg-slate-300 text-slate-100 dark:text-slate-900'>No.</div></td>
-                            <td className='p-1'><div className='rounded-full p-5 bg-slate-600 dark:bg-slate-300 text-slate-100 dark:text-slate-900'>Nama</div></td>
-                            <td className='p-1'><div className='rounded-full p-5 bg-slate-600 dark:bg-slate-300 text-slate-100 dark:text-slate-900'>Tipe</div></td>
-                            <td className='p-1'><div className='rounded-full p-5 bg-slate-600 dark:bg-slate-300 text-slate-100 dark:text-slate-900'>Aksi</div></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {account.length > 0 ? account.map((item, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td className='p-1'><div className='border-b p-3 text-center'>{index + 1}</div></td>
-                                    <td className='p-1'><div className='border-b p-3'>{item.name}</div></td>
-                                    <td className='p-1'><div className='border-b p-3'>{item.type}</div></td>
-                                    <td className='p-1'><div className='border-b p-2 text-center'>
-                                        <div className='flex gap-3 justify-center'>
-                                            <PrimaryButton onClick={() => {
-                                                setData({
-                                                    name: item.name,
-                                                    type: item.type,
-                                                });
-                                                setAccoundId(item.id)
-                                                setIsUpdate(true);
-                                                setShowModel(true);
-                                            }}>
-                                                Edit
-                                            </PrimaryButton>
-
-                                            <PrimaryButton onClick={() => {
-                                                setIsDelete(true)
-                                                setAccoundId(item.id)
-                                                setShowModel(true)
-                                            }}>Hapus</PrimaryButton>
-                                        </div>
-                                    </div>
-                                    </td>
-                                </tr>
-                            )
-                        }) : <p className='text-xl'>Tidak ada data.</p>}
-                    </tbody>
-                </table>
+                <Table
+                    heads={['No.', 'Nama', 'Tipe', 'Aksi']}
+                    contents={accounts}
+                    onClick={(e, item) => onClickHandle(e, item)}
+                />
             </div>
-            <Modal show={showModel}>
-                <form className='p-10' onSubmit={submit}>
-                    {isDelete ? (
-                        <p className='dark:text-slate-100 text-2xl'>Yakin hapus akun?</p>
-                    ) : (
-                        <div>
-                            <div>
-                                <InputLabel htmlFor="name" value="Nama" />
-
-                                <TextInput
-                                    id="name"
-                                    name="name"
-                                    value={data.name}
-                                    className="mt-1 block w-full"
-                                    isFocused={true}
-                                    onChange={(e) => setData('name', e.target.value)}
-                                />
-
-                                <InputError message={errors.name} className="mt-2" />
-                            </div>
-
-                            <div>
-                                <InputLabel htmlFor="type" value="Tipe" />
-
-                                <TextInput
-                                    id="type"
-                                    name="type"
-                                    value={data.type}
-                                    className="mt-1 block w-full"
-                                    onChange={(e) => setData('type', e.target.value)}
-                                />
-
-                                <InputError message={errors.type} className="mt-2" />
-                            </div>
-                        </div>
-                    )}
-                    <div className="flex items-center justify-end mt-4">
-                        <div className="ml-4 cursor-pointer text-slate-700 dark:text-slate-200" onClick={() => {
-                            setShowModel(false)
-                            setIsDelete(false)
-                            setIsUpdate(false)
-                        }} disabled={processing}>
-                            Batal
-                        </div>
-                        <PrimaryButton className="ml-4" disabled={processing}>
-                            {isDelete ? 'Hapus' : 'Simpan'}
-                        </PrimaryButton>
-                    </div>
-                </form>
-            </Modal>
+            <ModalAccount
+                submit={e => submit(e)}
+                data={data}
+                errors={errors}
+                isDelete={isDelete}
+                processing={processing}
+                setData={e => onChangeHandle(e)}
+                showModel={showModel}
+                onClick={e => onClickHandle(e)}
+            />
+            {accounts.length === 0 ? <p className='text-xl my-10 text-center dark:text-white'>Tidak ada data.</p> : <></>}
         </AuthenticatedLayout>
     );
 }
