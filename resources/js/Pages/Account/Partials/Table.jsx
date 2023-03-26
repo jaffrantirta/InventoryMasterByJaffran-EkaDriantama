@@ -22,8 +22,9 @@ export default function Table({ heads, contents, onClick }) {
                             return (
                                 <tr key={index} className={'border-b'}>
                                     <TableBody className={'text-center'} children={contents.from + index} />
+                                    <TableBody children={item.classification} />
+                                    <TableBody children={item.code} />
                                     <TableBody children={item.name} />
-                                    <TableBody children={item.type} />
                                     <TableBody className={'text-center p-0 grid cursor-pointer grid-cols-1 md:grid-cols-1 gap-2'}>
                                         <Dropdown>
                                             <Dropdown.Trigger>...</Dropdown.Trigger>

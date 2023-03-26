@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('classification');
             $table->string('code');
             $table->string('name');
+            $table->double('initial_balance');
             $table->timestamps();
         });
     }

@@ -29,17 +29,31 @@ export default function ModalAccount({ showModel, submit, isDelete, data, setDat
                         </div>
 
                         <div>
-                            <InputLabel htmlFor="type" value="Tipe" />
+                            <InputLabel htmlFor="code" value="Kode" />
 
                             <TextInput
-                                id="type"
-                                name="type"
-                                value={data.type}
+                                id="code"
+                                name="code"
+                                value={data.code}
                                 className="mt-1 block w-full"
-                                onChange={(e) => setData({ field: 'type', value: e.target.value })}
+                                onChange={(e) => setData({ field: 'code', value: e.target.value })}
                             />
 
-                            <InputError message={errors.type} className="mt-2" />
+                            <InputError message={errors.code} className="mt-2" />
+                        </div>
+
+                        <div>
+                            <InputLabel htmlFor="classification" value="Klasifikasi" />
+
+                            <TextInput
+                                id="classification"
+                                name="classification"
+                                value={data.classification}
+                                className="mt-1 block w-full"
+                                onChange={(e) => setData({ field: 'classification', value: e.target.value })}
+                            />
+
+                            <InputError message={errors.classification} className="mt-2" />
                         </div>
                     </div>
                 )}

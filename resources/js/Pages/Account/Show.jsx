@@ -14,7 +14,8 @@ export default function Show({ auth, status, accounts }) {
     const [accoundId, setAccoundId] = useState(0)
     const { data, setData, post, patch, delete: destroy, processing, errors, reset, recentlySuccessful } = useForm({
         name: '',
-        type: '',
+        code: '',
+        classification: '',
     });
     const submit = (e) => {
         e.preventDefault()
@@ -35,7 +36,8 @@ export default function Show({ auth, status, accounts }) {
         if (e === 'edit') {
             setData({
                 name: item.name,
-                type: item.type,
+                code: item.code,
+                classification: item.classification,
             });
             setAccoundId(item.id)
             setIsUpdate(true);
@@ -55,7 +57,8 @@ export default function Show({ auth, status, accounts }) {
 
     const onChangeHandle = (e) => {
         if (e.field === 'name') setData('name', e.value)
-        if (e.field === 'type') setData('type', e.value)
+        if (e.field === 'code') setData('code', e.value)
+        if (e.field === 'classification') setData('classification', e.value)
     }
     return (
         <AuthenticatedLayout
@@ -82,7 +85,7 @@ export default function Show({ auth, status, accounts }) {
                     <PrimaryButton className='my-5 w-full md:w-fit' onClick={() => setShowModel(true)}><p className='w-full text-center'>Tambah</p></PrimaryButton>
                 </div>
                 <Table
-                    heads={['No.', 'Nama', 'Tipe', 'Aksi']}
+                    heads={['No.', 'Klasifikasi', 'Kode', 'Nama', 'Aksi']}
                     contents={accounts}
                     onClick={(e, item) => onClickHandle(e, item)}
                 />

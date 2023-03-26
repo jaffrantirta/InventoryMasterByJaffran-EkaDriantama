@@ -16,7 +16,8 @@ class AccountRequest extends FormRequest
     {
         return [
             'name' => ['string', 'max:255'],
-            'type' => ['string', 'max:255'],
+            'code' => ['string', 'max:255'],
+            'classification' => ['string', 'max:255'],
         ];
     }
 }

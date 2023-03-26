@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('cashes', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('general_journal_id')->unsigned();
+            $table->bigInteger('journal_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
             $table->enum('type', ['in', 'out']);
             $table->timestamps();
-            $table->foreign('general_journal_id')->references('id')->on('general_journals')->onDelete('cascade');
+            $table->foreign('journal_id')->references('id')->on('journals')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

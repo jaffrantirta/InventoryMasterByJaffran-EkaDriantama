@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('general_journals', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->string('reference_code')->nullable();
             $table->bigInteger('user_id')->unsigned();
-            $table->date('journal_date');
-            $table->string('description');
+            $table->bigInteger('cash_id')->unsigned();
+            $table->double('grand_total');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('cash_id')->references('id')->on('cashes')->onDelete('cascade');
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('general_journals');
+        Schema::dropIfExists('transactions');
     }
 };

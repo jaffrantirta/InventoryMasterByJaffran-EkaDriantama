@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('account_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('reference_code')->nullable();
             $table->string('name');
-            $table->double('price');
-            $table->integer('stock');
+            $table->bigInteger('account_id')->unsigned();
             $table->timestamps();
+            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
         });
     }
 
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('account_settings');
     }
 };
