@@ -6,7 +6,7 @@ import { Transition } from '@headlessui/react';
 import Table from '@/Pages/Item/Partials/Table';
 import ModalItem from './Partials/ModalItem';
 
-export default function Show({ auth, status, items }) {
+export default function Show({ auth, status, items, roles }) {
     const bodyRef = useRef(null)
     const [showModel, setShowModel] = useState(false)
     const [isUpdate, setIsUpdate] = useState(false)
@@ -62,11 +62,12 @@ export default function Show({ auth, status, items }) {
     }
     return (
         <AuthenticatedLayout
-            ref={bodyRef}
+            roles={roles}
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Barang</h2>}
         >
             <Head title="Barang" />
+            <div ref={bodyRef}></div>
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
             <div className='p-5'>

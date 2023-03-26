@@ -7,7 +7,9 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
+use App\Models\User;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Traits\HasRoles;
 
 class LoginRequest extends FormRequest
 {
@@ -48,6 +50,11 @@ class LoginRequest extends FormRequest
                 'email' => trans('auth.failed'),
             ]);
         }
+
+        $user = Auth::user();
+        $modelUser = User::findOrFail($user->id);
+        $roles = $modelUser->getRoleNames()->toArray();
+        session(['user_roles' => $roles]);
 
         RateLimiter::clear($this->throttleKey());
     }

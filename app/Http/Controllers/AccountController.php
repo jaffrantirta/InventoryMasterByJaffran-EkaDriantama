@@ -19,6 +19,7 @@ class AccountController extends Controller
         $page = $request->has('page') ? $request->input('page') : 1;
         return Inertia::render('Account/Show', [
             'status' => session('status'),
+            'roles'=>session('user_roles'),
             'accounts' => Account::latest()->paginate(5, ['*'], 'page', $page)
         ]);
     }    

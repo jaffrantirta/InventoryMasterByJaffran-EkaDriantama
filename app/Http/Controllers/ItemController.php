@@ -18,6 +18,7 @@ class ItemController extends Controller
         $page = $request->has('page') ? $request->input('page') : 1;
         return Inertia::render('Item/Show', [
             'status' => session('status'),
+            'roles'=>session('user_roles'),
             'items' => Item::latest()->paginate(5, ['*'], 'page', $page)
         ]);
     }

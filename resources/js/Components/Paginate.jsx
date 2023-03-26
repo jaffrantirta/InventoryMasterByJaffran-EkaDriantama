@@ -3,7 +3,6 @@ import React from 'react'
 import PrimaryButton from './PrimaryButton';
 
 export default function Paginate({ contents }) {
-    console.log(contents);
     const links = contents.links
     const paginate_show = 3
     const numberLinks = links.filter(link => link.label !== 'Next &raquo;' && link.label !== '&laquo; Previous');

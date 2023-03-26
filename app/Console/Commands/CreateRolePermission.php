@@ -40,8 +40,7 @@ class CreateRolePermission extends Command
         $this->warn('super admin\'s password is "superadmin", please change it in database');
         $this->createSuperAdminUser();
         $this->line('super admin account created');
-        $this->info('Insert and assign role permission is successful');
-        $this->info('Supported by Jaffran');
+        $this->info('Insert and assign role permission is successful - Supported by Jaffran');
         DB::commit();
 
     }
@@ -56,6 +55,7 @@ class CreateRolePermission extends Command
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+        User::find(1)->assignRole('super-admin');
     }
     public function resetRolePermission(): void
     {
@@ -72,47 +72,73 @@ class CreateRolePermission extends Command
         Role::insert([
             [
                 'name' => 'accountant',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'cashier',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'super-admin',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
         ]);
 
         Permission::insert([
+            //user
+            [
+                'name' => 'create-user',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'update-user',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'delete-user',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'view-user',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
             //account
             [
                 'name' => 'create-account',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'update-account',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'delete-account',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'view-account',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -120,25 +146,25 @@ class CreateRolePermission extends Command
             //account-setting
             [
                 'name' => 'create-account-setting',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'update-account-setting',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'delete-account-setting',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'view-account-setting',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -146,25 +172,25 @@ class CreateRolePermission extends Command
             //asset
             [
                 'name' => 'create-asset',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'update-asset',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'delete-asset',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'view-asset',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -172,25 +198,25 @@ class CreateRolePermission extends Command
             //cash
             [
                 'name' => 'create-cash',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'update-cash',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'delete-cash',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'view-cash',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -198,25 +224,25 @@ class CreateRolePermission extends Command
             //deprecation
             [
                 'name' => 'create-deprecation',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'update-deprecation',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'delete-deprecation',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'view-deprecation',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -224,25 +250,25 @@ class CreateRolePermission extends Command
             //item
             [
                 'name' => 'create-item',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'update-item',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'delete-item',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'view-item',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -250,25 +276,25 @@ class CreateRolePermission extends Command
             //journal
             [
                 'name' => 'create-journal',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'update-journal',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'delete-journal',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'view-journal',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -276,25 +302,25 @@ class CreateRolePermission extends Command
             //journal-detail
             [
                 'name' => 'create-journal-detail',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'update-journal-detail',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'delete-journal-detail',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'view-journal-detail',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -302,31 +328,31 @@ class CreateRolePermission extends Command
             //transaction
             [
                 'name' => 'create-transaction',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'update-transaction',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'update-transaction-status',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'delete-transaction',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'view-transaction',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -334,25 +360,25 @@ class CreateRolePermission extends Command
             //transaction-detail
             [
                 'name' => 'create-transaction-detail',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'update-transaction-detail',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'delete-transaction-detail',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'view-transaction-detail',
-                'guard_name' => 'api',
+                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -361,12 +387,12 @@ class CreateRolePermission extends Command
     public function assignRolePermission()
     {
         //set role permission
-        Role::findByName('super-admin', 'api')->givePermissionTo(
+        Role::findByName('super-admin', 'web')->givePermissionTo(
             Permission::get('name')->pluck('name')->toArray() //assign all permission
         );
 
         //cashier
-        Role::findByName('cashier', 'api')->givePermissionTo(
+        Role::findByName('cashier', 'web')->givePermissionTo(
             //transaction
             'create-transaction',
             'update-transaction-status',
@@ -374,7 +400,7 @@ class CreateRolePermission extends Command
         );
 
         //accountant
-        Role::findByName('accountant', 'api')->givePermissionTo(
+        Role::findByName('accountant', 'web')->givePermissionTo(
             //transaction
             'create-transaction',
             'update-transaction-status',

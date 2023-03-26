@@ -5,9 +5,8 @@ import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 
-export default function Authenticated({ user, header, children }) {
+export default function Authenticated({ user, header, children, roles }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
             <nav className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
@@ -21,15 +20,9 @@ export default function Authenticated({ user, header, children }) {
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
-                                </NavLink>
-                                <NavLink href={route('account.index')} active={route().current('account.index')}>
-                                    Akun
-                                </NavLink>
-                                <NavLink href={route('item.index')} active={route().current('item.index')}>
-                                    Barang
-                                </NavLink>
+                                {roles.includes('super-admin') ? <NavLink href={route('dashboard')} active={route().current('dashboard')}>Dashboard</NavLink> : <></>}
+                                {roles.includes('super-admin') ? <NavLink href={route('account.index')} active={route().current('account.index')}>Akun</NavLink> : <></>}
+                                {roles.includes('super-admin') ? <NavLink href={route('item.index')} active={route().current('item.index')}>Barang</NavLink> : <></>}
                             </div>
                         </div>
 
