@@ -11,7 +11,8 @@ class Account extends Model
     protected $fillable = [
         'name',
         'code',
-        'classification'
+        'classification',
+        'initial_balance'
     ];
 
 }

@@ -55,6 +55,21 @@ export default function ModalAccount({ showModel, submit, isDelete, data, setDat
 
                             <InputError message={errors.classification} className="mt-2" />
                         </div>
+
+                        <div>
+                            <InputLabel htmlFor="initial_balance" value="Saldo awal (Rp)" />
+
+                            <TextInput
+                                id="initial_balance"
+                                name="initial_balance"
+                                value={data.initial_balance}
+                                type={'number'}
+                                className="mt-1 block w-full"
+                                onChange={(e) => setData({ field: 'initial_balance', value: e.target.value })}
+                            />
+
+                            <InputError message={errors.initial_balance} className="mt-2" />
+                        </div>
                     </div>
                 )}
                 <div className="flex items-center justify-end mt-4">

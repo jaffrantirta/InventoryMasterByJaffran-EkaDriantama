@@ -15,9 +15,9 @@ class AccountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['string', 'max:255'],
-            'code' => ['string', 'max:255'],
-            'classification' => ['string', 'max:255'],
-        ];
+            'name' => ['string', 'max:255', 'required'],
+            'code' => ['string', 'max:255', 'required'],
+            'classification' => ['string', 'max:255', 'required'],
+            'initial_balance' => ['numeric', 'required'],        ];
     }
 }

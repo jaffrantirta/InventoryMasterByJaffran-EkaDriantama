@@ -16,6 +16,7 @@ export default function Show({ auth, status, accounts, roles }) {
         name: '',
         code: '',
         classification: '',
+        initial_balance: 0,
     });
     const submit = (e) => {
         e.preventDefault()
@@ -38,6 +39,7 @@ export default function Show({ auth, status, accounts, roles }) {
                 name: item.name,
                 code: item.code,
                 classification: item.classification,
+                initial_balance: item.initial_balance
             });
             setAccoundId(item.id)
             setIsUpdate(true);
@@ -59,6 +61,7 @@ export default function Show({ auth, status, accounts, roles }) {
         if (e.field === 'name') setData('name', e.value)
         if (e.field === 'code') setData('code', e.value)
         if (e.field === 'classification') setData('classification', e.value)
+        if (e.field === 'initial_balance') setData('initial_balance', e.value)
     }
     return (
         <AuthenticatedLayout
@@ -86,7 +89,7 @@ export default function Show({ auth, status, accounts, roles }) {
                     <PrimaryButton className='my-5 w-full md:w-fit' onClick={() => setShowModel(true)}><p className='w-full text-center'>Tambah</p></PrimaryButton>
                 </div>
                 <Table
-                    heads={['No.', 'Klasifikasi', 'Kode', 'Nama', 'Aksi']}
+                    heads={['No.', 'Klasifikasi', 'Kode', 'Nama', 'Saldo awal (Rp)', 'Aksi']}
                     contents={accounts}
                     onClick={(e, item) => onClickHandle(e, item)}
                 />

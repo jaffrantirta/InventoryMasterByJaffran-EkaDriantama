@@ -29,7 +29,7 @@ export default function ModalAccount({ showModel, submit, isDelete, data, setDat
                         </div>
 
                         <div>
-                            <InputLabel htmlFor="price" value="Harga (Rp.)" />
+                            <InputLabel htmlFor="price" value="Harga (Rp)" />
 
                             <TextInput
                                 id="price"

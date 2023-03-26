@@ -1,6 +1,7 @@
 import Dropdown from '@/Components/Dropdown';
 import Paginate from '@/Components/Paginate';
 import { Link } from '@inertiajs/react';
+import numeral from 'numeral';
 import React from 'react'
 import PrimaryButton from '../../../Components/PrimaryButton';
 import TableBody from '../../../Components/TableBody';
@@ -25,6 +26,7 @@ export default function Table({ heads, contents, onClick }) {
                                     <TableBody children={item.classification} />
                                     <TableBody children={item.code} />
                                     <TableBody children={item.name} />
+                                    <TableBody className={'text-right'} children={numeral(item.initial_balance).format('0,0.00')} />
                                     <TableBody className={'text-center p-0 grid cursor-pointer grid-cols-1 md:grid-cols-1 gap-2'}>
                                         <Dropdown>
                                             <Dropdown.Trigger>...</Dropdown.Trigger>

@@ -86,7 +86,7 @@ export default function Show({ auth, status, items, roles }) {
                     <PrimaryButton className='my-5 w-full md:w-fit' onClick={() => setShowModel(true)}><p className='w-full text-center'>Tambah</p></PrimaryButton>
                 </div>
                 <Table
-                    heads={['No.', 'Nama', 'Harga (Rp.)', 'Stok', 'Aksi']}
+                    heads={['No.', 'Nama', 'Harga (Rp)', 'Stok', 'Aksi']}
                     contents={items}
                     onClick={(e, item) => onClickHandle(e, item)}
                 />
