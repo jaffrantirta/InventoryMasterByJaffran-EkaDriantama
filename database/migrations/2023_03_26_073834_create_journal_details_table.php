@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cashes', function (Blueprint $table) {
+        Schema::create('journal_details', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('general_journal_id')->unsigned();
-            $table->enum('type', ['in', 'out']);
+            $table->bigInteger('account_id')->unsigned();
+            $table->double('debit');
+            $table->double('credit');
             $table->timestamps();
             $table->foreign('general_journal_id')->references('id')->on('general_journals')->onDelete('cascade');
+            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
         });
     }
 
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cashes');
+        Schema::dropIfExists('journal_details');
     }
 };

@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('general_journals', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->double('debit');
-            $table->double('credit');
-            $table->string('info')->nullable();
+            $table->bigInteger('user_id')->unsigned();
+            $table->date('journal_date');
+            $table->string('description');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

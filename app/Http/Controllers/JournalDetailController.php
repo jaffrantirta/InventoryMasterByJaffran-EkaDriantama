@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TransactionDetail;
+use App\Models\JournalDetail;
 use Illuminate\Http\Request;
 
-class TransactionDetailController extends Controller
+class JournalDetailController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class TransactionDetailController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(TransactionDetail $transactionDetail)
+    public function show(JournalDetail $journalDetail)
     {
         //
     }
@@ -42,7 +42,7 @@ class TransactionDetailController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(TransactionDetail $transactionDetail)
+    public function edit(JournalDetail $journalDetail)
     {
         //
     }
@@ -50,7 +50,7 @@ class TransactionDetailController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TransactionDetail $transactionDetail)
+    public function update(Request $request, JournalDetail $journalDetail)
     {
         //
     }
@@ -58,7 +58,7 @@ class TransactionDetailController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TransactionDetail $transactionDetail)
+    public function destroy(JournalDetail $journalDetail)
     {
         //
     }
