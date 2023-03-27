@@ -13,7 +13,7 @@ export default function Paginate({ contents }) {
             {links.length > 2 ? contents.current_page > 2 ? <PrimaryButton className={`m-2 w-fit`} disabled={true}>{`...`}</PrimaryButton> : <></> : <></>}
             {contents.data > 0 ? <></> : numberLinks.slice(contents.current_page - 1, contents.current_page + 1).map((item, index) => {
                 return (
-                    <Link href={item.url}>
+                    <Link key={index} href={item.url}>
                         <PrimaryButton key={index} disabled={item.active} className={`m-2`}>
                             {item.label}
                         </PrimaryButton>

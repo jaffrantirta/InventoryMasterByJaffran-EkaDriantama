@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\JournalController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,9 +33,11 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::middleware(['permission:create-account', 'permission:update-account', 'permission:delete-account', 'permission:view-account'])->group(function () {
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    });
 
     Route::get('/accounts', [AccountController::class, 'index'])->name('account.index');
     Route::patch('/accounts', [AccountController::class, 'update'])->name('account.update');
@@ -45,6 +48,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/items', [ItemController::class, 'update'])->name('item.update');
     Route::post('/items', [ItemController::class, 'store'])->name('item.store');
     Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('item.destroy');
+
+    Route::get('/journals', [JournalController::class, 'index'])->name('journal.index');
+    Route::patch('/journals', [JournalController::class, 'update'])->name('journal.update');
+    Route::post('/journals', [JournalController::class, 'store'])->name('journal.store');
+    Route::delete('/journals/{journal}', [JournalController::class, 'destroy'])->name('journal.destroy');
 });
 
 require __DIR__.'/auth.php';

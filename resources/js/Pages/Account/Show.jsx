@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm } from '@inertiajs/react';
 import { useRef, useState } from 'react';
 import { Transition } from '@headlessui/react';
-import Table from '@/Pages/Account/Partials/Table';
+import TableAccount from '@/Pages/Account/Partials/TableAccount';
 import ModalAccount from './Partials/ModalAccount';
 
 export default function Show({ auth, status, accounts, roles }) {
@@ -12,7 +12,7 @@ export default function Show({ auth, status, accounts, roles }) {
     const [isUpdate, setIsUpdate] = useState(false)
     const [isDelete, setIsDelete] = useState(false)
     const [accoundId, setAccoundId] = useState(0)
-    const { data, setData, post, patch, delete: destroy, processing, errors, reset, recentlySuccessful } = useForm({
+    const { data, setData, post, patch, delete: destroy, processing, errors, reset, recentlySuccessful, hasErrors } = useForm({
         name: '',
         code: '',
         classification: '',
@@ -71,16 +71,14 @@ export default function Show({ auth, status, accounts, roles }) {
         >
             <Head title="Akun" />
             <div ref={bodyRef}></div>
-
-            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
             <div className='p-5'>
                 <Transition
-                    show={recentlySuccessful}
+                    show={recentlySuccessful || hasErrors}
                     enterFrom="opacity-0"
                     leaveTo="opacity-0"
-                    className="transition ease-in-out bg-slate-200 p-3 rounded-3xl"
+                    className={`transition ease-in-out ${hasErrors ? 'bg-red-200' : 'bg-slate-200'} p-3 rounded-3xl`}
                 >
-                    <p className="text-slate-900 dark:text-slate-600 text-center font-bold text-xl">Sukses!</p>
+                    <p className={`text-slate-900 dark:text-slate-600 text-center font-bold text-xl`}>{hasErrors ? errors.message : 'Sukses!'}</p>
                 </Transition>
             </div>
 
@@ -88,7 +86,7 @@ export default function Show({ auth, status, accounts, roles }) {
                 <div className='flex justify-end'>
                     <PrimaryButton className='my-5 w-full md:w-fit' onClick={() => setShowModel(true)}><p className='w-full text-center'>Tambah</p></PrimaryButton>
                 </div>
-                <Table
+                <TableAccount
                     heads={['No.', 'Klasifikasi', 'Kode', 'Nama', 'Saldo awal (Rp)', 'Aksi']}
                     contents={accounts}
                     onClick={(e, item) => onClickHandle(e, item)}

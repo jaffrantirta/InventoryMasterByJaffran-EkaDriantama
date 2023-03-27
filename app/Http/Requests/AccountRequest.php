@@ -18,6 +18,7 @@ class AccountRequest extends FormRequest
             'name' => ['string', 'max:255', 'required'],
             'code' => ['string', 'max:255', 'required'],
             'classification' => ['string', 'max:255', 'required'],
-            'initial_balance' => ['numeric', 'required'],        ];
+            'initial_balance' => ['numeric', 'required'],
+        ];
     }
 }

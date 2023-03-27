@@ -7,7 +7,7 @@ import PrimaryButton from '../../../Components/PrimaryButton';
 import TableBody from '../../../Components/TableBody';
 import TableHeader from '../../../Components/TableHeader';
 
-export default function Table({ heads, contents, onClick }) {
+export default function TableAccount({ heads, contents, onClick }) {
     return (
         <div>
             <p className='font-bold text-lg text-center md:text-left my-3'>Total: {contents.total}</p>

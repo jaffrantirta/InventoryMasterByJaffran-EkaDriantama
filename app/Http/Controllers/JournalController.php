@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GeneralJournal;
+use App\Models\Journal;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
-class GeneralJournalController extends Controller
+class JournalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $page = $request->has('page') ? $request->input('page') : 1;
+        return Inertia::render('Journal/Show', [
+            'status' => session('status'),
+            'roles'=>session('user_roles'),
+            'journals' => Journal::with('journal_details')->with('journal_details.account')->latest()->paginate(5, ['*'], 'page', $page)
+        ]);
     }
 
     /**
