@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('item.destroy');
 
     Route::get('/journals', [JournalController::class, 'index'])->name('journal.index');
+    Route::get('/journals/create', [JournalController::class, 'create'])->name('journal.create');
     Route::patch('/journals', [JournalController::class, 'update'])->name('journal.update');
     Route::post('/journals', [JournalController::class, 'store'])->name('journal.store');
     Route::delete('/journals/{journal}', [JournalController::class, 'destroy'])->name('journal.destroy');

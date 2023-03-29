@@ -9,6 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class JournalDetail extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'account_id',
+        'journal_id',
+        'credit',
+        'debit'
+    ];
     public function journal(): BelongsTo
     {
         return $this->belongsTo(Journal::class);

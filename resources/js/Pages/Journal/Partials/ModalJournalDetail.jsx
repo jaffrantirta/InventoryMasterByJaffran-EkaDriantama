@@ -5,7 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import TextInput from '@/Components/TextInput'
 import React from 'react'
 
-export default function ModalJournal({ showModel, submit, isDelete, data, setData, errors, processing, onClick }) {
+export default function ModalJournalDetail({ showModel, submit, isDelete, data, setData, errors, processing, onClick }) {
     return (
         <Modal show={showModel}>
             <form className='p-10' onSubmit={e => submit(e)}>

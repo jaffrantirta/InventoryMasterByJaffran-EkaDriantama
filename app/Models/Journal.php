@@ -10,6 +10,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Journal extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'date',
+        'description',
+        'user_id'
+    ];
     public function assets(): HasMany
     {
         return $this->hasMany(Asset::class);

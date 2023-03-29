@@ -1,10 +1,10 @@
 import PrimaryButton from '@/Components/PrimaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import { useRef, useState } from 'react';
 import { Transition } from '@headlessui/react';
 import TableJournal from '@/Pages/Journal/Partials/Tablejournal';
-import ModalItem from './Partials/ModalJournal';
+import ModalJournal from './Partials/ModalJournal';
 
 export default function Show({ auth, status, journals, roles }) {
     console.log(journals);
@@ -61,7 +61,7 @@ export default function Show({ auth, status, journals, roles }) {
 
             <div className='p-10 dark:text-slate-200'>
                 <div className='flex justify-end'>
-                    <PrimaryButton className='my-5 w-full md:w-fit' onClick={() => setShowModel(true)}><p className='w-full text-center'>Tambah</p></PrimaryButton>
+                    <PrimaryButton className='my-5 w-full md:w-fit'><p className='w-full text-center'><Link href={route('journal.create')}>Tambah</Link></p></PrimaryButton>
                 </div>
                 <TableJournal
                     heads={['No.', 'Tanggal', 'Deskripsi', 'Kode akun', 'Reff', 'Debit', 'Kredit']}
@@ -69,7 +69,7 @@ export default function Show({ auth, status, journals, roles }) {
                     onClick={(e, item) => onClickHandle(e, item)}
                 />
             </div>
-            <ModalItem
+            <ModalJournal
                 submit={e => submit(e)}
                 data={data}
                 errors={errors}
