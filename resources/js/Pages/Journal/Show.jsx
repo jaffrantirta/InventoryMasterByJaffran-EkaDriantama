@@ -7,7 +7,6 @@ import TableJournal from '@/Pages/Journal/Partials/Tablejournal';
 import ModalJournal from './Partials/ModalJournal';
 
 export default function Show({ auth, status, journals, roles }) {
-    console.log(journals);
     const bodyRef = useRef(null)
     const [showModel, setShowModel] = useState(false)
     const { data, setData, post, processing, errors, reset, recentlySuccessful } = useForm({

@@ -5,10 +5,6 @@ import TableBody from '../../../Components/TableBody';
 import TableHeader from '../../../Components/TableHeader';
 
 export default function TableJournal({ heads, contents, onClick }) {
-    useEffect(() => {
-        console.log(contents, 'kaka');
-    }, [])
-
     return (
         <div>
             <p className='font-bold text-lg text-center md:text-left my-3'>Total: {contents.total}</p>
@@ -21,20 +17,35 @@ export default function TableJournal({ heads, contents, onClick }) {
                     </thead>
                     <tbody>
                         {contents.data.map((item, index) => {
-                            console.log(item);
                             return (
-                                <tr key={index} className={'border-b'}>
-                                    <TableBody className={'text-center'} children={contents.from + index} />
-                                    <TableBody children={item.date} />
-                                    <TableBody children={item.description} />
-                                    <TableBody children={'101'} />
-                                    <TableBody children={item.description} />
-                                    <TableBody className={'text-right'} children={numeral(item.debit).format('0,0.00')} />
-                                    <TableBody className={'text-right'} children={numeral(item.kredit).format('0,0.00')} />
-                                </tr>
+                                <React.Fragment key={index}>
+                                    <tr className={'border-b'}>
+                                        <TableBody className={'text-center'} children={contents.from + index} />
+                                        <TableBody children={item.date} />
+                                        <TableBody children={item.description} />
+                                        <TableBody children={''} />
+                                        <TableBody children={''} />
+                                        <TableBody children={''} />
+                                        <TableBody children={''} />
+                                    </tr>
+                                    {item.journal_details.map((detail, indexDetail) => {
+                                        return (
+                                            <tr key={indexDetail} className={'border-b'}>
+                                                <TableBody children={''} />
+                                                <TableBody children={''} />
+                                                <TableBody children={''} />
+                                                <TableBody children={detail.account.code} />
+                                                <TableBody children={detail.account.name} />
+                                                <TableBody className={'text-right'} children={numeral(detail.debit).format('0,0.00')} />
+                                                <TableBody className={'text-right'} children={numeral(detail.credit).format('0,0.00')} />
+                                            </tr>
+                                        )
+                                    })}
+                                </React.Fragment>
                             )
                         })}
                     </tbody>
+
                 </table>
             </div>
             <Paginate contents={contents} />

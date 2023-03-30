@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\Journal;
 use App\Models\JournalDetail;
-use App\Models\Account;
+use App\Http\Requests\JournalRequest;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\DB;
 
 class JournalController extends Controller
 {
@@ -27,44 +29,25 @@ class JournalController extends Controller
             'accounts' => Account::orderBy('code', 'asc')->get(),
         ]);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(JournalRequest $request)
     {
-        $request->validate([
-            'description' => 'required',
-            'date' => 'required|date',
-            'journal_details' => 'required|array|min:2',
-            'journal_details.*.account_id' => 'required|exists:accounts,id',
-            'journal_details.*.debit' => 'required|numeric|min:0',
-            'journal_details.*.credit' => 'required|numeric|min:0',
-        ]);
+        DB::beginTransaction();
+            $journalData = $request->only(['description', 'date']);
+            $journalData['user_id'] = auth()->user()->id;
+            $journal = Journal::create($journalData);
 
-        // Create a new journal instance
-    $journal = new Journal([
-        'description' => $request->input('description'),
-        'date' => $request->input('date'),
-        'user_id' => auth()->user()->id
-    ]);
+            foreach ($request->input('journal_details') as $detail) {
+                JournalDetail::create([
+                    'journal_id' => $journal->id,
+                    'account_id' => $detail['account_id'],
+                    'debit' => $detail['debit'],
+                    'credit' => $detail['credit']
+                ]);
+            }
 
-    // Save the journal
-    $journal->save();
-
-    // Save the journal details
-    foreach ($request->input('journal_details') as $detail) {
-        $journalDetail = new JournalDetail([
-            'journal_id' => $journal->id,
-            'account_id' => $detail['account_id'],
-            'debit' => $detail['debit'],
-            'credit' => $detail['credit']
-        ]);
-        $journalDetail->save();
-    }
-
-    // Return a response
-    return Redirect::route('journal.create');
+            DB::commit();
+    
+            return Redirect::route('journal.create'); 
     }
 
     /**

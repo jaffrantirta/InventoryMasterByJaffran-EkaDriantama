@@ -22,10 +22,6 @@ export default function Create({ roles, auth, accounts }) {
         reset()
     }
 
-    useEffect(() => {
-        console.log(errors, data);
-    }, [errors, data])
-
 
     const addJournalDetail = () => {
         const selectHtml = accounts
@@ -62,7 +58,6 @@ export default function Create({ roles, auth, accounts }) {
         }).then(response => {
             if (response.isConfirmed) {
                 const { debit, credit, account_id, account_code, account_name } = response.value
-                console.log(account_name);
                 setData('journal_details', [...data.journal_details, {
                     account_id: account_id,
                     account_name: account_name,
