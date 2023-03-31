@@ -4,60 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Models\Cash;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CashController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $page = $request->has('page') ? $request->input('page') : 1;
+        return Inertia::render('Cash/Show', [
+            'roles' => session('user_roles'),
+            'cashes_in' => Cash::with('journal.journal_details.account')->where('type', 'in')->latest()->paginate(5, ['*'], 'page', $page),
+            'cashes_out' => Cash::with('journal.journal_details.account')->where('type', 'out')->latest()->paginate(5, ['*'], 'page', $page)
+        ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(Cash $cash)
     {
         //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Cash $cash)
     {
         //
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Cash $cash)
     {
         //
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Cash $cash)
     {
         //

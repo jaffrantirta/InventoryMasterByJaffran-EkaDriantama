@@ -3,6 +3,7 @@ import numeral from 'numeral';
 import React, { useEffect } from 'react'
 import TableBody from '../../../Components/TableBody';
 import TableHeader from '../../../Components/TableHeader';
+import moment from 'moment';
 
 export default function TableJournal({ heads, contents, onClick }) {
     return (
@@ -21,7 +22,7 @@ export default function TableJournal({ heads, contents, onClick }) {
                                 <React.Fragment key={index}>
                                     <tr className={'border-b'}>
                                         <TableBody className={'text-center'} children={contents.from + index} />
-                                        <TableBody children={item.date} />
+                                        <TableBody className={'text-center'} children={moment(item.date).format('LL')} />
                                         <TableBody children={item.description} />
                                         <TableBody children={''} />
                                         <TableBody children={''} />

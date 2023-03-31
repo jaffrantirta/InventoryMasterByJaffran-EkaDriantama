@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\CashController;
 use App\Http\Controllers\JournalController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -54,6 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/journals', [JournalController::class, 'update'])->name('journal.update');
     Route::post('/journals', [JournalController::class, 'store'])->name('journal.store');
     Route::delete('/journals/{journal}', [JournalController::class, 'destroy'])->name('journal.destroy');
+
+    Route::resource('cash', CashController::class)->only('index', 'store', 'update');
 });
 
 require __DIR__.'/auth.php';
