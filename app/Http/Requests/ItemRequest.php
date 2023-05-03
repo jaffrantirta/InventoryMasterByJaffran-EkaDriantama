@@ -15,6 +15,7 @@ class ItemRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'reference_code' => 'required',
             'name' => ['string', 'max:255', 'required'],
             'price' => ['numeric', 'required'],
             'stock' => ['numeric', 'required'],

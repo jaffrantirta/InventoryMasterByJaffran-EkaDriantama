@@ -23,24 +23,21 @@ class AccountController extends Controller
             'roles' => session('user_roles'),
             'accounts' => Account::latest()->paginate(5, ['*'], 'page', $page)
         ]);
-    }    
+    }
     public function store(AccountRequest $request): RedirectResponse
     {
-        //CHECK MEMILIKI PERMISSION ATAU TIDAK
-        if(!auth()->user()->hasPermissionTo('create-account'))return redirect()->back()->withErrors(['message'=>'You do not have permission to access this resource.']);
-
         Account::create($request->validated())->save();
         return Redirect::route('account.index');
     }
     public function update(AccountRequest $request): RedirectResponse
     {
-        if(!auth()->user()->hasPermissionTo('update-account'))return redirect()->back()->withErrors(['message'=>'You do not have permission to access this resource.']);
+        if (!auth()->user()->hasPermissionTo('update-account')) return redirect()->back()->withErrors(['message' => 'You do not have permission to access this resource.']);
         Account::find($request->id)->update($request->validated());
         return Redirect::route('account.index');
     }
     public function destroy($id): RedirectResponse
     {
-        if(!auth()->user()->hasPermissionTo('delete-account'))return redirect()->back()->withErrors(['message'=>'You do not have permission to access this resource.']);
+        if (!auth()->user()->hasPermissionTo('delete-account')) return redirect()->back()->withErrors(['message' => 'You do not have permission to access this resource.']);
         Account::find($id)->delete();
         return Redirect::route('account.index');
     }

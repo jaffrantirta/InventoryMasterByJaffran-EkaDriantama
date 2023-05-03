@@ -10,6 +10,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Transaction extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'reference_code',
+        'cash_id',
+        'user_id',
+        'grand_total'
+    ];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

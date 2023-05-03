@@ -14,6 +14,20 @@ export default function ModalAccount({ showModel, submit, isDelete, data, setDat
                 ) : (
                     <div>
                         <div>
+                            <InputLabel htmlFor="reference_code" value="Kode Barang" />
+
+                            <TextInput
+                                id="reference_code"
+                                name="reference_code"
+                                value={data.reference_code}
+                                className="mt-1 block w-full"
+                                isFocused={true}
+                                onChange={(e) => setData({ field: 'reference_code', value: e.target.value })}
+                            />
+
+                            <InputError message={errors.reference_code} className="mt-2" />
+                        </div>
+                        <div>
                             <InputLabel htmlFor="name" value="Nama" />
 
                             <TextInput
@@ -21,7 +35,6 @@ export default function ModalAccount({ showModel, submit, isDelete, data, setDat
                                 name="name"
                                 value={data.name}
                                 className="mt-1 block w-full"
-                                isFocused={true}
                                 onChange={(e) => setData({ field: 'name', value: e.target.value })}
                             />
 

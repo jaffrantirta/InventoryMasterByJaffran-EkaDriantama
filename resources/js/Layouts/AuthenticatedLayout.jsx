@@ -25,6 +25,7 @@ export default function Authenticated({ user, header, children, roles }) {
                                 {roles.includes('super-admin') ? <NavLink href={route('item.index')} active={route().current('item.index')}>Barang</NavLink> : <></>}
                                 {roles.includes('super-admin') ? <NavLink href={route('journal.index')} active={route().current('journal.index')}>Jurnal Umum</NavLink> : <></>}
                                 {roles.includes('super-admin') ? <NavLink href={route('cash.index')} active={route().current('cash.index')}>Kas</NavLink> : <></>}
+                                {roles.includes('super-admin') ? <NavLink href={route('transaction.index')} active={route().current('transaction.index')}>Transaksi</NavLink> : <></>}
                             </div>
                         </div>
 
@@ -97,6 +98,8 @@ export default function Authenticated({ user, header, children, roles }) {
                         {roles.includes('super-admin') ? <ResponsiveNavLink href={route('account.index')} active={route().current('account.index')}>Akun</ResponsiveNavLink> : <></>}
                         {roles.includes('super-admin') ? <ResponsiveNavLink href={route('item.index')} active={route().current('item.index')}>Barang</ResponsiveNavLink> : <></>}
                         {roles.includes('super-admin') ? <ResponsiveNavLink href={route('journal.index')} active={route().current('journal.index')}>Jurnal Umum</ResponsiveNavLink> : <></>}
+                        {roles.includes('super-admin') ? <ResponsiveNavLink href={route('cash.index')} active={route().current('cash.index')}>Kas</ResponsiveNavLink> : <></>}
+                        {roles.includes('super-admin') ? <ResponsiveNavLink href={route('journal.index')} active={route().current('journal.index')}>Transaksi</ResponsiveNavLink> : <></>}
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">

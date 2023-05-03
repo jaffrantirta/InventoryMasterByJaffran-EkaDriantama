@@ -10,6 +10,7 @@ class Item extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'reference_code',
         'name',
         'price',
         'stock'
@@ -18,5 +19,4 @@ class Item extends Model
     {
         return $this->hasMany(TransactionDetail::class);
     }
-
 }

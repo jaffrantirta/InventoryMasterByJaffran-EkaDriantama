@@ -5,6 +5,8 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CashController;
 use App\Http\Controllers\JournalController;
+use App\Http\Controllers\TransactionController;
+use App\Models\Transaction;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -57,6 +59,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/journals/{journal}', [JournalController::class, 'destroy'])->name('journal.destroy');
 
     Route::resource('cash', CashController::class);
+    Route::resource('transaction', TransactionController::class);
 });
 
 require __DIR__ . '/auth.php';

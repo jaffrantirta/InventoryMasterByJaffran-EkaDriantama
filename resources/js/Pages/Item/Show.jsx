@@ -16,6 +16,7 @@ export default function Show({ auth, status, items, roles }) {
         name: '',
         price: 0,
         stock: 0,
+        reference_code: '',
     });
     const submit = (e) => {
         e.preventDefault()
@@ -35,6 +36,7 @@ export default function Show({ auth, status, items, roles }) {
     const onClickHandle = (e, item) => {
         if (e === 'edit') {
             setData({
+                reference_code: item.reference_code,
                 name: item.name,
                 price: item.price,
                 stock: item.stock
@@ -56,6 +58,7 @@ export default function Show({ auth, status, items, roles }) {
     }
 
     const onChangeHandle = (e) => {
+        if (e.field === 'reference_code') setData('reference_code', e.value)
         if (e.field === 'name') setData('name', e.value)
         if (e.field === 'price') setData('price', e.value)
         if (e.field === 'stock') setData('stock', e.value)
@@ -86,7 +89,7 @@ export default function Show({ auth, status, items, roles }) {
                     <PrimaryButton className='my-5 w-full md:w-fit' onClick={() => setShowModel(true)}><p className='w-full text-center'>Tambah</p></PrimaryButton>
                 </div>
                 <TableItem
-                    heads={['No.', 'Nama', 'Harga (Rp)', 'Stok', 'Aksi']}
+                    heads={['No.', 'Kode Barang', 'Nama', 'Harga (Rp)', 'Stok', 'Aksi']}
                     contents={items}
                     onClick={(e, item) => onClickHandle(e, item)}
                 />

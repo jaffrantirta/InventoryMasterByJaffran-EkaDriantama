@@ -23,6 +23,7 @@ export default function TableItem({ heads, contents, onClick }) {
                             return (
                                 <tr key={index} className={'border-b'}>
                                     <TableBody className={'text-center'} children={contents.from + index} />
+                                    <TableBody children={item.reference_code} />
                                     <TableBody children={item.name} />
                                     <TableBody className={'text-right'} children={numeral(item.price).format('0,0.00')} />
                                     <TableBody className={'text-right'} children={item.stock} />
