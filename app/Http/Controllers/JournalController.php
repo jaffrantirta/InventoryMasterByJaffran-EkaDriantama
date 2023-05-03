@@ -25,35 +25,35 @@ class JournalController extends Controller
     public function create()
     {
         return Inertia::render('Journal/Create', [
-            'roles'=>session('user_roles'),
+            'roles' => session('user_roles'),
             'accounts' => Account::orderBy('code', 'asc')->get(),
         ]);
     }
     public function store(JournalRequest $request)
     {
         DB::beginTransaction();
-            $journalData = $request->only(['description', 'date']);
-            $journalData['user_id'] = auth()->user()->id;
-            $journal = Journal::create($journalData);
+        $journalData = $request->only(['description', 'date']);
+        $journalData['user_id'] = auth()->user()->id;
+        $journal = Journal::create($journalData);
 
-            foreach ($request->input('journal_details') as $detail) {
-                JournalDetail::create([
-                    'journal_id' => $journal->id,
-                    'account_id' => $detail['account_id'],
-                    'debit' => $detail['debit'],
-                    'credit' => $detail['credit']
-                ]);
-            }
+        foreach ($request->input('journal_details') as $detail) {
+            JournalDetail::create([
+                'journal_id' => $journal->id,
+                'account_id' => $detail['account_id'],
+                'debit' => $detail['debit'],
+                'credit' => $detail['credit']
+            ]);
+        }
 
-            DB::commit();
-    
-            return Redirect::route('journal.create'); 
+        DB::commit();
+
+        return Redirect::route('journal.create');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(GeneralJournal $generalJournal)
+    public function show(Journal $journal)
     {
         //
     }
@@ -61,7 +61,7 @@ class JournalController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(GeneralJournal $generalJournal)
+    public function edit(Journal $journal)
     {
         //
     }
@@ -69,15 +69,7 @@ class JournalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, GeneralJournal $generalJournal)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(GeneralJournal $generalJournal)
+    public function update(Request $request, Journal $journal)
     {
         //
     }

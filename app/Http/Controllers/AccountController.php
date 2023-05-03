@@ -26,7 +26,9 @@ class AccountController extends Controller
     }    
     public function store(AccountRequest $request): RedirectResponse
     {
+        //CHECK MEMILIKI PERMISSION ATAU TIDAK
         if(!auth()->user()->hasPermissionTo('create-account'))return redirect()->back()->withErrors(['message'=>'You do not have permission to access this resource.']);
+
         Account::create($request->validated())->save();
         return Redirect::route('account.index');
     }

@@ -27,7 +27,7 @@ export default function TableCash({ heads, contents, onClick }) {
                                     <TableBody children={moment(item.journal.date).format('LL')} />
                                     <TableBody children={item.journal.description} />
                                     <TableBody className={'text-right'} children={numeral(item.journal.journal_details[0].debit).format('0,0.00')} />
-                                    <TableBody className={'flex justify-center'}><PrimaryButton>Edit</PrimaryButton></TableBody>
+                                    {/* <TableBody className={'flex justify-center'}><PrimaryButton>Edit</PrimaryButton></TableBody> */}
                                 </tr>
                             )
                         })}

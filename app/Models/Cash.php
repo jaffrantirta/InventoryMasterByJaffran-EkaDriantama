@@ -10,6 +10,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Cash extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'journal_id',
+        'user_id',
+        'type',
+    ];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

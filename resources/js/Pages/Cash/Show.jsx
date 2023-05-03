@@ -68,10 +68,10 @@ export default function Show({ auth, cashes_in, cashes_out, roles }) {
 
             <div className='p-10 dark:text-slate-200'>
                 <div className='flex justify-end'>
-                    <PrimaryButton className='my-5 w-full md:w-fit'><p className='w-full text-center'><Link href={route('journal.create')}>Tambah</Link></p></PrimaryButton>
+                    <PrimaryButton className='my-5 w-full md:w-fit'><p className='w-full text-center'><Link href={route('cash.create')}>Tambah</Link></p></PrimaryButton>
                 </div>
                 <TableCash
-                    heads={['No.', 'Tanggal', 'Deskripsi', 'Jumlah', 'Aksi']}
+                    heads={['No.', 'Tanggal', 'Deskripsi', 'Jumlah']}
                     contents={cashList}
                     onClick={(e, item) => onClickHandle(e, item)}
                 />

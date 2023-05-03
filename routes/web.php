@@ -30,7 +30,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard', ['roles'=>session('user_roles')]);
+    return Inertia::render('Dashboard', ['roles' => session('user_roles')]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -56,7 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/journals', [JournalController::class, 'store'])->name('journal.store');
     Route::delete('/journals/{journal}', [JournalController::class, 'destroy'])->name('journal.destroy');
 
-    Route::resource('cash', CashController::class)->only('index', 'store', 'update');
+    Route::resource('cash', CashController::class);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

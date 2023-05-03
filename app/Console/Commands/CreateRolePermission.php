@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -42,7 +43,6 @@ class CreateRolePermission extends Command
         $this->line('super admin account created');
         $this->info('Insert and assign role permission is successful - Supported by Jaffran');
         DB::commit();
-
     }
     public function createSuperAdminUser()
     {
@@ -50,7 +50,7 @@ class CreateRolePermission extends Command
             'id' => 1,
             'name' => 'super admin',
             'email' => 'super@admin',
-            'password' => \Hash::make('superadmin'),
+            'password' => Hash::make('superadmin'),
             'email_verified_at' => now(),
             'created_at' => now(),
             'updated_at' => now(),
