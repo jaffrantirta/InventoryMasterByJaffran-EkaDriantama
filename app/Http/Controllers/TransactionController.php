@@ -83,6 +83,9 @@ class TransactionController extends Controller
 
         //insert transaction detail
         foreach ($request->input('items_selected') as $detail) {
+            $item = Item::find($detail['item_id']);
+            $item->stock = $item->stock - $detail['qty'];
+            $item->save();
             TransactionDetail::create([
                 'transaction_id' => $transaction->id,
                 'item_id' => $detail['item_id'],
