@@ -14,13 +14,14 @@ class Item extends Model
         'reference_code',
         'name',
         'price',
-        'stock'
+        'stock',
+        'min_stock',
     ];
     public function transaction_details(): HasMany
     {
         return $this->hasMany(TransactionDetail::class);
     }
-    public function category(): BelongsToMany
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'item_categories');
     }

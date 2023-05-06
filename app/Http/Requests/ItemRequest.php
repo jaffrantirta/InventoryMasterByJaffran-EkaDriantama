@@ -19,6 +19,8 @@ class ItemRequest extends FormRequest
             'name' => ['string', 'max:255', 'required'],
             'price' => ['numeric', 'required'],
             'stock' => ['numeric', 'required'],
+            'min_stock' => ['numeric'],
+            'categories' => ['required', 'exists:categories,id'],
         ];
     }
 }

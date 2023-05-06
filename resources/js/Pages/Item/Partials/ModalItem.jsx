@@ -5,7 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import TextInput from '@/Components/TextInput'
 import React from 'react'
 
-export default function ModalAccount({ showModel, submit, isDelete, data, setData, errors, processing, onClick }) {
+export default function ModalAccount({ showModel, submit, isDelete, data, setData, errors, processing, onClick, categories }) {
     return (
         <Modal show={showModel}>
             <form className='p-10' onSubmit={e => submit(e)}>
@@ -27,6 +27,22 @@ export default function ModalAccount({ showModel, submit, isDelete, data, setDat
 
                             <InputError message={errors.reference_code} className="mt-2" />
                         </div>
+
+                        <div>
+                            <InputLabel htmlFor="categories" value="Kategori" />
+
+                            <select value={data.categories[0]?.id} onChange={e => setData({ field: 'categories', value: e.target.value })} className='border-gray-300 w-full dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-full shadow-sm'>
+                                <option value="">- pilih kategori -</option>
+                                {categories.map((category, index) => (
+                                    <option key={index} value={category.id}>
+                                        {category.name}
+                                    </option>
+                                ))}
+                            </select>
+
+                            <InputError message={errors.categories} className="mt-2" />
+                        </div>
+
                         <div>
                             <InputLabel htmlFor="name" value="Nama" />
 
@@ -66,6 +82,21 @@ export default function ModalAccount({ showModel, submit, isDelete, data, setDat
                                 value={data.stock}
                                 className="mt-1 block w-full"
                                 onChange={(e) => setData({ field: 'stock', value: e.target.value })}
+                            />
+
+                            <InputError message={errors.price} className="mt-2" />
+                        </div>
+
+                        <div>
+                            <InputLabel htmlFor="min_stock" value="Minimum Stok Tersedia" />
+
+                            <TextInput
+                                id="min_stock"
+                                name="min_stock"
+                                type={'number'}
+                                value={data.min_stock}
+                                className="mt-1 block w-full"
+                                onChange={(e) => setData({ field: 'min_stock', value: e.target.value })}
                             />
 
                             <InputError message={errors.price} className="mt-2" />

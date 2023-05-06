@@ -6,7 +6,7 @@ import { Transition } from '@headlessui/react';
 import TableItem from '@/Pages/Item/Partials/TableItem';
 import ModalItem from './Partials/ModalItem';
 
-export default function Show({ auth, status, items, roles }) {
+export default function Show({ auth, status, items, roles, categories }) {
     const bodyRef = useRef(null)
     const [showModel, setShowModel] = useState(false)
     const [isUpdate, setIsUpdate] = useState(false)
@@ -16,10 +16,13 @@ export default function Show({ auth, status, items, roles }) {
         name: '',
         price: 0,
         stock: 0,
+        min_stock: 0,
         reference_code: '',
+        categories: '',
     });
     const submit = (e) => {
         e.preventDefault()
+        console.log(id);
         if (isUpdate) patch(route('item.update', { id: id }))
         if (isDelete) destroy(route('item.destroy', { id: id }))
         if (!isUpdate && !isDelete) post(route('item.store'))
@@ -35,11 +38,14 @@ export default function Show({ auth, status, items, roles }) {
     }
     const onClickHandle = (e, item) => {
         if (e === 'edit') {
+            console.log(item);
             setData({
                 reference_code: item.reference_code,
+                categories: item.categories,
                 name: item.name,
                 price: item.price,
-                stock: item.stock
+                stock: item.stock,
+                min_stock: item.min_stock,
             });
             setId(item.id)
             setIsUpdate(true);
@@ -59,9 +65,11 @@ export default function Show({ auth, status, items, roles }) {
 
     const onChangeHandle = (e) => {
         if (e.field === 'reference_code') setData('reference_code', e.value)
+        if (e.field === 'categories') setData('categories', e.value)
         if (e.field === 'name') setData('name', e.value)
         if (e.field === 'price') setData('price', e.value)
         if (e.field === 'stock') setData('stock', e.value)
+        if (e.field === 'min_stock') setData('min_stock', e.value)
     }
     return (
         <AuthenticatedLayout
@@ -89,7 +97,7 @@ export default function Show({ auth, status, items, roles }) {
                     <PrimaryButton className='my-5 w-full md:w-fit' onClick={() => setShowModel(true)}><p className='w-full text-center'>Tambah</p></PrimaryButton>
                 </div>
                 <TableItem
-                    heads={['No.', 'Kode Barang', 'Nama', 'Harga (Rp)', 'Stok', 'Aksi']}
+                    heads={['No.', 'Kode Barang', 'Kategori', 'Nama', 'Harga (Rp)', 'Stok', 'Min. Stock', 'Status', 'Aksi']}
                     contents={items}
                     onClick={(e, item) => onClickHandle(e, item)}
                 />
@@ -99,6 +107,7 @@ export default function Show({ auth, status, items, roles }) {
                 data={data}
                 errors={errors}
                 isDelete={isDelete}
+                categories={categories}
                 processing={processing}
                 setData={e => onChangeHandle(e)}
                 showModel={showModel}

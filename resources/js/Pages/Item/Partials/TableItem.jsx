@@ -24,9 +24,19 @@ export default function TableItem({ heads, contents, onClick }) {
                                 <tr key={index} className={'border-b'}>
                                     <TableBody className={'text-center'} children={contents.from + index} />
                                     <TableBody children={item.reference_code} />
+                                    <TableBody>
+                                        {item.categories.length > 0 ? item.categories.map((category, indexCat) => {
+                                            return <p key={indexCat}>{category.name}</p>
+                                        }) : <p className='font-light text-xs text-amber-400'>tidak memiliki kategori</p>}
+                                    </TableBody>
                                     <TableBody children={item.name} />
                                     <TableBody className={'text-right'} children={numeral(item.price).format('0,0.00')} />
                                     <TableBody className={'text-right'} children={item.stock} />
+                                    <TableBody className={'text-right'} children={item.min_stock} />
+                                    <TableBody className={'text-right'}>
+                                        {item.stock === 0 ? <p className='text-red-500'>Stok habis</p> : item.min_stock === null ? <p className='text-gray-500'>Minimal stok tidak di set</p> : item.stock <= item.min_stock ? <p className='text-red-200'>Stok segera habis</p> : item.stock <= (item.min_stock * 1.25) ? <p className='text-amber-500'>Stok menipis</p> : <p className='text-green-500'>Stok aman</p>}
+                                    </TableBody>
+
                                     <TableBody className={'text-center p-0 grid cursor-pointer grid-cols-1 md:grid-cols-1 gap-2'}>
                                         <Dropdown>
                                             <Dropdown.Trigger>...</Dropdown.Trigger>

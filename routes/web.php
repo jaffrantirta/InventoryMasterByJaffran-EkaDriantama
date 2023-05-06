@@ -48,10 +48,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/accounts', [AccountController::class, 'store'])->name('account.store');
     Route::delete('/accounts/{account}', [AccountController::class, 'destroy'])->name('account.destroy');
 
-    Route::get('/items', [ItemController::class, 'index'])->name('item.index');
-    Route::patch('/items', [ItemController::class, 'update'])->name('item.update');
-    Route::post('/items', [ItemController::class, 'store'])->name('item.store');
-    Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('item.destroy');
+    // Route::get('/items', [ItemController::class, 'index'])->name('item.index');
+    // Route::patch('/items', [ItemController::class, 'update'])->name('item.update');
+    // Route::post('/items', [ItemController::class, 'store'])->name('item.store');
+    // Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('item.destroy');
 
     Route::get('/journals', [JournalController::class, 'index'])->name('journal.index');
     Route::get('/journals/create', [JournalController::class, 'create'])->name('journal.create');
@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('cash', CashController::class);
     Route::resource('transaction', TransactionController::class);
     Route::resource('category', CategoryController::class);
+    Route::resource('item', ItemController::class);
 });
 
 require __DIR__ . '/auth.php';
