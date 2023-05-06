@@ -2,64 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryStoreRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return Inertia::render('Category/Show', [
+            'roles' => session('user_roles'),
+            'categories' => Category::latest()->paginate()
+        ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(CategoryStoreRequest $request)
     {
-        //
+        Category::create($request->validated())->save();
+        return redirect()->back();
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function update(CategoryUpdateRequest $request, Category $category)
     {
-        //
+        $category->update($request->validated());
+        return redirect()->back();
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Category $category)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Category $category)
     {
-        //
+        if ($category->item()->count() > 0) return redirect()->back()->withErrors(['message' => 'You cannot delete this category because it has items.']);
+        $category->delete();
+        return redirect()->back();
     }
 }

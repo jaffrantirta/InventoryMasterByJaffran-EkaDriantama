@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CashController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\TransactionController;
 use App\Models\Transaction;
@@ -60,6 +61,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('cash', CashController::class);
     Route::resource('transaction', TransactionController::class);
+    Route::resource('category', CategoryController::class);
 });
 
 require __DIR__ . '/auth.php';
