@@ -34,7 +34,7 @@ export default function TableItem({ heads, contents, onClick }) {
                                     <TableBody className={'text-right'} children={item.stock} />
                                     <TableBody className={'text-right'} children={item.min_stock} />
                                     <TableBody className={'text-right'}>
-                                        {item.stock === 0 ? <p className='text-red-500'>Stok habis</p> : item.min_stock === null ? <p className='text-gray-500'>Minimal stok tidak di set</p> : item.stock <= item.min_stock ? <p className='text-red-200'>Stok segera habis</p> : item.stock <= (item.min_stock * 1.25) ? <p className='text-amber-500'>Stok menipis</p> : <p className='text-green-500'>Stok aman</p>}
+                                        {item.stock === 0 ? <p className='text-red-500'>Stok habis</p> : item.min_stock === null ? <p className='text-gray-500'>Minimal stok tidak di set</p> : item.stock <= item.min_stock ? <p className='text-red-600 dark:text-red-200'>Stok segera habis</p> : item.stock <= (item.min_stock * 1.25) ? <p className='text-amber-600'>Stok menipis</p> : <p className='text-green-500'>Stok aman</p>}
                                     </TableBody>
 
                                     <TableBody className={'text-center p-0 grid cursor-pointer grid-cols-1 md:grid-cols-1 gap-2'}>
