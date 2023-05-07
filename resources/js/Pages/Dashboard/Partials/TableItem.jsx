@@ -7,7 +7,7 @@ import PrimaryButton from '../../../Components/PrimaryButton';
 import TableBody from '../../../Components/TableBody';
 import TableHeader from '../../../Components/TableHeader';
 
-export default function TableItem({ heads, contents, onClick }) {
+export default function TableItem({ heads, contents }) {
     return (
         <div>
             <p className='font-bold text-lg text-center md:text-left my-3'>Saran untuk stok kembali</p>

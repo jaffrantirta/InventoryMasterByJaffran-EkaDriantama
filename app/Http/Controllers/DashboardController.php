@@ -20,10 +20,12 @@ class DashboardController extends Controller
             ->groupBy('items.id', 'items.name', 'items.min_stock', 'items.shipping_day', 'items.reference_code', 'items.stock', 'items.created_at', 'items.updated_at', 'items.price')
             ->get();
         $data['items'] = [];
-        foreach ($items as $key => $item) {
+        foreach ($items as $item) {
+            $i = 0;
             $reorder_point = ($item->avg_sell_per_day * $item->shipping_day) + $item->min_stock;
-            if ($item->stock == $reorder_point) {
-                $data['items'][$key] = array_merge((array) $item, ['reorder_point' => $reorder_point]);
+            if ($item->stock <= intval($reorder_point)) {
+                $data['items'][$i] = $item;
+                $i++;
             }
         }
         $data['roles'] = session('user_roles');
