@@ -21,7 +21,7 @@ export default function TableItem({ heads, contents, onClick }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {contents.map((item, index) => {
+                        {contents.length > 0 ? contents.map((item, index) => {
                             return (
                                 <tr key={index} className={'border-b'}>
                                     <TableBody className={'text-center'} children={index + 1} />
@@ -35,7 +35,7 @@ export default function TableItem({ heads, contents, onClick }) {
                                     </TableBody>
                                 </tr>
                             )
-                        })}
+                        }) : <p className='text-left font-bold text-green-700 dark:text-green-300'>Semua stok aman!</p>}
                     </tbody>
                 </table>
             </div>
