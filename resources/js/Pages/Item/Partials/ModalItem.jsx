@@ -84,7 +84,7 @@ export default function ModalAccount({ showModel, submit, isDelete, data, setDat
                                 onChange={(e) => setData({ field: 'stock', value: e.target.value })}
                             />
 
-                            <InputError message={errors.price} className="mt-2" />
+                            <InputError message={errors.stock} className="mt-2" />
                         </div>
 
                         <div>
@@ -99,7 +99,23 @@ export default function ModalAccount({ showModel, submit, isDelete, data, setDat
                                 onChange={(e) => setData({ field: 'min_stock', value: e.target.value })}
                             />
 
-                            <InputError message={errors.price} className="mt-2" />
+                            <InputError message={errors.min_stock} className="mt-2" />
+                        </div>
+
+                        <div>
+                            <InputLabel htmlFor="shipping_day" value="Lama pemasok mengirim barang (hari)" />
+                            <p className='text-amber-300 text-sm italic'>jika dikosongkan maka sistem tidak dapat menyarankan restock barang ini.</p>
+
+                            <TextInput
+                                id="shipping_day"
+                                name="shipping_day"
+                                type={'number'}
+                                value={data.shipping_day}
+                                className="mt-1 block w-full"
+                                onChange={(e) => setData({ field: 'shipping_day', value: e.target.value })}
+                            />
+
+                            <InputError message={errors.shipping_day} className="mt-2" />
                         </div>
                     </div>
                 )}

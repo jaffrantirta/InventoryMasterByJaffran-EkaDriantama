@@ -21,6 +21,7 @@ class ItemRequest extends FormRequest
             'stock' => ['numeric', 'required'],
             'min_stock' => ['numeric'],
             'categories' => ['required', 'exists:categories,id'],
+            'shipping_day' => ['numeric', 'min:1']
         ];
     }
 }

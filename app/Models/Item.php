@@ -16,6 +16,7 @@ class Item extends Model
         'price',
         'stock',
         'min_stock',
+        'shipping_day'
     ];
     public function transaction_details(): HasMany
     {

@@ -19,6 +19,7 @@ export default function Show({ auth, status, items, roles, categories }) {
         min_stock: 0,
         reference_code: '',
         categories: '',
+        shipping_day: null,
     });
     const submit = (e) => {
         e.preventDefault()
@@ -46,6 +47,7 @@ export default function Show({ auth, status, items, roles, categories }) {
                 price: item.price,
                 stock: item.stock,
                 min_stock: item.min_stock,
+                shipping_day: item.shipping_day
             });
             setId(item.id)
             setIsUpdate(true);
@@ -70,6 +72,7 @@ export default function Show({ auth, status, items, roles, categories }) {
         if (e.field === 'price') setData('price', e.value)
         if (e.field === 'stock') setData('stock', e.value)
         if (e.field === 'min_stock') setData('min_stock', e.value)
+        if (e.field === 'shipping_day') setData('shipping_day', e.value)
     }
     return (
         <AuthenticatedLayout
