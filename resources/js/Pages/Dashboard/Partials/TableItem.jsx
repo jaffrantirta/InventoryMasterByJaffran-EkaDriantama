@@ -11,7 +11,7 @@ export default function TableItem({ heads, contents, onClick }) {
     return (
         <div>
             <p className='font-bold text-lg text-center md:text-left my-3'>Saran untuk stok kembali</p>
-            <p className='italic text-xs text-center md:text-left text-amber-200'>Perhitungan berdasarkan rata - rata penjualan dan lama pengiriman dari pemasok</p>
+            <p className='italic text-xs text-center md:text-left text-amber-600 dark:text-amber-200'>Perhitungan berdasarkan rata - rata penjualan dan lama pengiriman dari pemasok</p>
             <p className='font-bold text-lg text-center md:text-left my-3'>Total: {contents.length}</p>
             <div className='overflow-x-auto'>
                 <table className='w-full'>

@@ -104,7 +104,7 @@ export default function ModalAccount({ showModel, submit, isDelete, data, setDat
 
                         <div>
                             <InputLabel htmlFor="shipping_day" value="Lama pemasok mengirim barang (hari)" />
-                            <p className='text-amber-300 text-sm italic'>jika dikosongkan maka sistem tidak dapat menyarankan restock barang ini.</p>
+                            <p className='text-amber-600 dark:text-amber-200 text-sm italic'>jika dikosongkan maka sistem tidak dapat menyarankan restock barang ini.</p>
 
                             <TextInput
                                 id="shipping_day"
