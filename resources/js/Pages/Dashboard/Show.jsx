@@ -19,7 +19,7 @@ export default function Show({ auth, roles, ...props }) {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                 <div className="max-w-7xl sm:px-6 lg:px-8">
                     <div className="bg-red-300 dark:bg-red-800 text-center overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">Barang dengan stok hampir habis</div>
@@ -30,6 +30,12 @@ export default function Show({ auth, roles, ...props }) {
                     <div className="bg-amber-300 dark:bg-amber-800 text-center overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">Barang dengan stok menipis</div>
                         <div className="p-6 text-gray-900 dark:text-gray-100 text-6xl font-bold">{props.low_stock}</div>
+                    </div>
+                </div>
+                <div className="max-w-7xl sm:px-6 lg:px-8">
+                    <div className="bg-green-300 dark:bg-green-800 text-center overflow-hidden shadow-sm sm:rounded-lg">
+                        <div className="p-6 text-gray-900 dark:text-gray-100">Barang dengan stok aman</div>
+                        <div className="p-6 text-gray-900 dark:text-gray-100 text-6xl font-bold">{props.high_stock}</div>
                     </div>
                 </div>
             </div>

@@ -13,6 +13,7 @@ class DashboardController extends Controller
     {
         $data['out_of_stock'] = DB::select('SELECT COUNT(*) as count FROM items WHERE stock <= min_stock')[0]->count;
         $data['low_stock'] = Item::whereBetween('stock', [DB::raw('min_stock + 1'), DB::raw('min_stock * 1.25')])->count();
+        $data['high_stock'] = Item::where('stock', '>', DB::raw('min_stock * 1.25'))->count();
         $items = DB::table('items')
             ->join('transaction_details', 'items.id', '=', 'transaction_details.item_id')
             ->select('items.*', DB::raw('AVG(transaction_details.qty) / items.shipping_day AS avg_sell_per_day'))
