@@ -20,6 +20,10 @@ export default function Show({ auth, status, items, roles, categories }) {
         reference_code: '',
         categories: '',
         shipping_day: null,
+        unit_name: '',
+        unit_price: 0,
+        unit_sum: 0,
+        is_wholesale: false,
     });
     const submit = (e) => {
         e.preventDefault()
@@ -47,7 +51,11 @@ export default function Show({ auth, status, items, roles, categories }) {
                 price: item.price,
                 stock: item.stock,
                 min_stock: item.min_stock,
-                shipping_day: item.shipping_day
+                shipping_day: item.shipping_day,
+                unit_name: item.unit_name,
+                unit_price: item.unit_price,
+                unit_sum: item.unit_sum,
+                is_wholesaler: item.is_wholesaler,
             });
             setId(item.id)
             setIsUpdate(true);
@@ -73,6 +81,10 @@ export default function Show({ auth, status, items, roles, categories }) {
         if (e.field === 'stock') setData('stock', e.value)
         if (e.field === 'min_stock') setData('min_stock', e.value)
         if (e.field === 'shipping_day') setData('shipping_day', e.value)
+        if (e.field === 'unit_name') setData('unit_name', e.value)
+        if (e.field === 'unit_price') setData('unit_price', e.value)
+        if (e.field === 'unit_sum') setData('unit_sum', e.value)
+        if (e.field === 'is_wholesaler') setData('is_wholesaler', e.value)
     }
     return (
         <AuthenticatedLayout

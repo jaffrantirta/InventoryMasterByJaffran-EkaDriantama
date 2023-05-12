@@ -8,7 +8,7 @@ import React from 'react'
 export default function ModalAccount({ showModel, submit, isDelete, data, setData, errors, processing, onClick, categories }) {
     return (
         <Modal show={showModel}>
-            <form className='p-10' onSubmit={e => submit(e)}>
+            <form className='p-10 grid grid-cols-2 gap-5' onSubmit={e => submit(e)}>
                 {isDelete ? (
                     <p className='dark:text-slate-100 text-2xl'>Yakin hapus akun?</p>
                 ) : (
@@ -58,7 +58,7 @@ export default function ModalAccount({ showModel, submit, isDelete, data, setDat
                         </div>
 
                         <div>
-                            <InputLabel htmlFor="price" value="Harga (Rp)" />
+                            <InputLabel htmlFor="price" value="Harga Eceran (Rp)" />
 
                             <TextInput
                                 id="price"
@@ -117,15 +117,83 @@ export default function ModalAccount({ showModel, submit, isDelete, data, setDat
 
                             <InputError message={errors.shipping_day} className="mt-2" />
                         </div>
+
+                        <div className='my-10'>
+                            <InputLabel htmlFor="is_wholesaler">
+                                <input
+                                    className='mr-2 rounded-full'
+                                    type="checkbox"
+                                    checked={data.is_wholesaler}
+                                    onChange={(e) => setData({ field: 'is_wholesaler', value: e.target.checked })}
+                                />
+                                Aktifkan harga grosir?
+                            </InputLabel>
+                            <InputError message={errors.shipping_day} className="mt-2" />
+                        </div>
                     </div>
                 )}
-                <div className="flex items-center justify-end mt-4">
-                    <div className="ml-4 cursor-pointer text-slate-700 dark:text-slate-200" onClick={() => onClick('cancel')} disabled={processing}>
-                        Batal
+                <div className="">
+                    <div className=''>
+                        {data.is_wholesaler && (
+                            <>
+                                <div>
+                                    <InputLabel htmlFor="unit_name" value="Satuan" />
+                                    {/* <p className='text-amber-600 dark:text-amber-200 text-sm italic'>jika dikosongkan maka sistem tidak dapat menyarankan restock barang ini.</p> */}
+
+                                    <TextInput
+                                        id="unit_name"
+                                        name="unit_name"
+                                        type={'text'}
+                                        value={data.unit_name}
+                                        className="mt-1 block w-full"
+                                        onChange={(e) => setData({ field: 'unit_name', value: e.target.value })}
+                                    />
+
+                                    <InputError message={errors.unit_name} className="mt-2" />
+                                </div>
+
+                                <div>
+                                    <InputLabel htmlFor="unit_price" value="Harga Grosir (Rp)" />
+                                    {/* <p className='text-amber-600 dark:text-amber-200 text-sm italic'>jika dikosongkan maka sistem tidak dapat menyarankan restock barang ini.</p> */}
+
+                                    <TextInput
+                                        id="unit_price"
+                                        name="unit_price"
+                                        type={'number'}
+                                        value={data.unit_price}
+                                        className="mt-1 block w-full"
+                                        onChange={(e) => setData({ field: 'unit_price', value: e.target.value })}
+                                    />
+
+                                    <InputError message={errors.unit_price} className="mt-2" />
+                                </div>
+
+                                <div>
+                                    <InputLabel htmlFor="unit_sum" value="Jumlah dalam satuan (pcs)" />
+                                    <p className='text-amber-600 dark:text-amber-200 text-sm italic'>contoh: 24 (jika jumlah dalam satuan isi 24pcs)</p>
+
+                                    <TextInput
+                                        id="unit_sum"
+                                        name="unit_sum"
+                                        type={'number'}
+                                        value={data.unit_sum}
+                                        className="mt-1 block w-full"
+                                        onChange={(e) => setData({ field: 'unit_sum', value: e.target.value })}
+                                    />
+
+                                    <InputError message={errors.unit_sum} className="mt-2" />
+                                </div>
+                            </>
+                        )}
                     </div>
-                    <PrimaryButton className="ml-4" disabled={processing}>
-                        {isDelete ? 'Hapus' : 'Simpan'}
-                    </PrimaryButton>
+                    <div className='flex mt-4 items-center justify-end '>
+                        <div className="ml-4 cursor-pointer text-slate-700 dark:text-slate-200" onClick={() => onClick('cancel')} disabled={processing}>
+                            Batal
+                        </div>
+                        <PrimaryButton className="ml-4" disabled={processing}>
+                            {isDelete ? 'Hapus' : 'Simpan'}
+                        </PrimaryButton>
+                    </div>
                 </div>
             </form>
         </Modal>

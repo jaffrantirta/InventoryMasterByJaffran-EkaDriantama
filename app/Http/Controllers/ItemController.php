@@ -29,6 +29,13 @@ class ItemController extends Controller
         DB::beginTransaction();
         $item = Item::create($request->except('categories'));
         $item->categories()->attach($request->categories);
+        if ($request->is_wholesaler) {
+            $item->unit()->create([
+                'name' => $request->input('unit_name'),
+                'price' => $request->input('unit_price'),
+                'sum' => $request->input('unit_sum')
+            ]);
+        }
         DB::commit();
         return Redirect::route('item.index');
     }
