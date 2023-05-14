@@ -29,7 +29,7 @@ class TransactionController extends Controller
     {
         return Inertia::render('Transaction/Create', [
             'roles' => session('user_roles'),
-            'items' => Item::orderBy('name', 'asc')->get(),
+            'items' => Item::orderBy('name', 'asc')->where('stock', '>', 0)->get(),
             'reference_code' => now()->timestamp,
         ]);
     }

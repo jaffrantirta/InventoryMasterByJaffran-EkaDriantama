@@ -8,6 +8,7 @@ import { Head, useForm } from '@inertiajs/react';
 import React, { useState } from 'react'
 import TableTransactionDetail from './Partials/TableTransactionDetail';
 import NavLink from '@/Components/NavLink';
+import numeral from 'numeral';
 
 export default function Create({ roles, auth, items, reference_code }) {
     const { data, setData, post, processing, errors, reset, recentlySuccessful } = useForm({
@@ -31,6 +32,31 @@ export default function Create({ roles, auth, items, reference_code }) {
         post(route('transaction.store'))
         reset()
     }
+    const addToCart = (item, qty) => {
+        const updatedItems = [...data.items_selected];
+        const existingItemIndex = updatedItems.findIndex(
+            (selectedItem) => selectedItem.item_id === item.id
+        );
+
+        let final_qty = (existingItemIndex !== -1) ? updatedItems[existingItemIndex].qty + qty : qty
+        let sub_total = final_qty * item.price
+
+        if (existingItemIndex !== -1) {
+            updatedItems[existingItemIndex].qty = final_qty;
+            updatedItems[existingItemIndex].subTotal = sub_total;
+        } else {
+            updatedItems.push({
+                ...item,
+                qty: qty,
+                item_id: item.id,
+                price: item.price,
+                subTotal: sub_total,
+            });
+        }
+
+        setData('items_selected', updatedItems);
+    };
+
     return (
         <Authenticated
             roles={roles}
@@ -90,9 +116,7 @@ export default function Create({ roles, auth, items, reference_code }) {
                             {suggestions.map((item) => (
                                 <li className='cursor-pointer hover:text-slate-300' onClick={() => {
                                     let qty = 1
-                                    let sub_total = qty * item.price
-                                    setData('items_selected', [...data.items_selected, { ...item, qty: qty, item_id: item.id, price: item.price }])
-                                    setGrandTotal(gt => (gt + sub_total))
+                                    addToCart(item, qty)
                                 }} key={item.id}>{item.reference_code} - {item.name}</li>
                             ))}
                         </ul>
@@ -104,7 +128,7 @@ export default function Create({ roles, auth, items, reference_code }) {
                 </div>
                 <div className='w-full'>
                     <InputLabel value={'Total'} />
-                    <p className='text-6xl font-bold dark:text-white'>Rp.{grandTotal}</p>
+                    <p className='text-6xl font-bold dark:text-white'>Rp.{numeral(grandTotal).format('0,0')}</p>
                 </div>
 
             </div>
@@ -112,6 +136,7 @@ export default function Create({ roles, auth, items, reference_code }) {
                 <TableTransactionDetail
                     heads={['No.', 'Barang', 'Jumlah', 'Harga', 'Total', 'Aksi']}
                     contents={data.items_selected}
+                    listenGrandTotal={e => setGrandTotal(e)}
                 // onClick={(e, item) => onClickHandle(e, item)}
                 />
             </div>
