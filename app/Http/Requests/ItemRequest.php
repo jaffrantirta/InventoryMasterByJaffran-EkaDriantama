@@ -22,7 +22,7 @@ class ItemRequest extends FormRequest
             'min_stock' => ['numeric'],
             'categories' => ['required', 'exists:categories,id'],
             'shipping_day' => ['numeric', 'min:1'],
-            'unit_name' => ['string', 'max:255', 'required_if:is_wholesaler,true'],
+            'unit_name' => ['max:255', 'required_if:is_wholesaler,true'],
             'unit_sum' => ['numeric', 'required_if:is_wholesaler,true'],
             'unit_price' => ['numeric', 'required_if:is_wholesaler,true'],
             'is_wholesaler' => ['boolean'],

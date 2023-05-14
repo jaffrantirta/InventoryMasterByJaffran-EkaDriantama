@@ -74,7 +74,7 @@ export default function ModalAccount({ showModel, submit, isDelete, data, setDat
 
                         <div>
                             <InputLabel htmlFor="stock" value="Stok" />
-
+                            {data.is_wholesaler && (<p className='text-amber-600 dark:text-amber-200 text-sm italic'>Harga grosir diaktifkan! Stok ini berubah menjadi stok grosir.</p>)}
                             <TextInput
                                 id="stock"
                                 name="stock"
@@ -133,59 +133,61 @@ export default function ModalAccount({ showModel, submit, isDelete, data, setDat
                     </div>
                 )}
                 <div className="">
-                    <div className=''>
-                        {data.is_wholesaler && (
-                            <>
-                                <div>
-                                    <InputLabel htmlFor="unit_name" value="Satuan" />
-                                    {/* <p className='text-amber-600 dark:text-amber-200 text-sm italic'>jika dikosongkan maka sistem tidak dapat menyarankan restock barang ini.</p> */}
+                    {isDelete ? <></> : (
+                        <div className=''>
+                            {data.is_wholesaler && (
+                                <>
+                                    <div>
+                                        <InputLabel htmlFor="unit_name" value="Satuan" />
+                                        {/* <p className='text-amber-600 dark:text-amber-200 text-sm italic'>jika dikosongkan maka sistem tidak dapat menyarankan restock barang ini.</p> */}
 
-                                    <TextInput
-                                        id="unit_name"
-                                        name="unit_name"
-                                        type={'text'}
-                                        value={data.unit_name}
-                                        className="mt-1 block w-full"
-                                        onChange={(e) => setData({ field: 'unit_name', value: e.target.value })}
-                                    />
+                                        <TextInput
+                                            id="unit_name"
+                                            name="unit_name"
+                                            type={'text'}
+                                            value={data.unit_name}
+                                            className="mt-1 block w-full"
+                                            onChange={(e) => setData({ field: 'unit_name', value: e.target.value })}
+                                        />
 
-                                    <InputError message={errors.unit_name} className="mt-2" />
-                                </div>
+                                        <InputError message={errors.unit_name} className="mt-2" />
+                                    </div>
 
-                                <div>
-                                    <InputLabel htmlFor="unit_price" value="Harga Grosir (Rp)" />
-                                    {/* <p className='text-amber-600 dark:text-amber-200 text-sm italic'>jika dikosongkan maka sistem tidak dapat menyarankan restock barang ini.</p> */}
+                                    <div>
+                                        <InputLabel htmlFor="unit_price" value="Harga Grosir (Rp)" />
+                                        {/* <p className='text-amber-600 dark:text-amber-200 text-sm italic'>jika dikosongkan maka sistem tidak dapat menyarankan restock barang ini.</p> */}
 
-                                    <TextInput
-                                        id="unit_price"
-                                        name="unit_price"
-                                        type={'number'}
-                                        value={data.unit_price}
-                                        className="mt-1 block w-full"
-                                        onChange={(e) => setData({ field: 'unit_price', value: e.target.value })}
-                                    />
+                                        <TextInput
+                                            id="unit_price"
+                                            name="unit_price"
+                                            type={'number'}
+                                            value={data.unit_price}
+                                            className="mt-1 block w-full"
+                                            onChange={(e) => setData({ field: 'unit_price', value: e.target.value })}
+                                        />
 
-                                    <InputError message={errors.unit_price} className="mt-2" />
-                                </div>
+                                        <InputError message={errors.unit_price} className="mt-2" />
+                                    </div>
 
-                                <div>
-                                    <InputLabel htmlFor="unit_sum" value="Jumlah dalam satuan (pcs)" />
-                                    <p className='text-amber-600 dark:text-amber-200 text-sm italic'>contoh: 24 (jika jumlah dalam satuan isi 24pcs)</p>
+                                    <div>
+                                        <InputLabel htmlFor="unit_sum" value="Jumlah dalam satuan (pcs)" />
+                                        <p className='text-amber-600 dark:text-amber-200 text-sm italic'>contoh: 24 (jika jumlah dalam satuan isi 24pcs)</p>
 
-                                    <TextInput
-                                        id="unit_sum"
-                                        name="unit_sum"
-                                        type={'number'}
-                                        value={data.unit_sum}
-                                        className="mt-1 block w-full"
-                                        onChange={(e) => setData({ field: 'unit_sum', value: e.target.value })}
-                                    />
+                                        <TextInput
+                                            id="unit_sum"
+                                            name="unit_sum"
+                                            type={'number'}
+                                            value={data.unit_sum}
+                                            className="mt-1 block w-full"
+                                            onChange={(e) => setData({ field: 'unit_sum', value: e.target.value })}
+                                        />
 
-                                    <InputError message={errors.unit_sum} className="mt-2" />
-                                </div>
-                            </>
-                        )}
-                    </div>
+                                        <InputError message={errors.unit_sum} className="mt-2" />
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    )}
                     <div className='flex mt-4 items-center justify-end '>
                         <div className="ml-4 cursor-pointer text-slate-700 dark:text-slate-200" onClick={() => onClick('cancel')} disabled={processing}>
                             Batal

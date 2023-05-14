@@ -6,13 +6,13 @@ import { Transition } from '@headlessui/react';
 import TableItem from '@/Pages/Item/Partials/TableItem';
 import ModalItem from './Partials/ModalItem';
 
-export default function Show({ auth, status, items, roles, categories }) {
+export default function Show({ auth, items, roles, categories }) {
     const bodyRef = useRef(null)
     const [showModel, setShowModel] = useState(false)
     const [isUpdate, setIsUpdate] = useState(false)
     const [isDelete, setIsDelete] = useState(false)
     const [id, setId] = useState(0)
-    const { data, setData, post, patch, delete: destroy, processing, errors, reset, recentlySuccessful } = useForm({
+    const { data, setData, post, patch, delete: destroy, processing, errors, reset, recentlySuccessful, hasErrors } = useForm({
         name: '',
         price: 0,
         stock: 0,
@@ -49,13 +49,13 @@ export default function Show({ auth, status, items, roles, categories }) {
                 categories: item.categories,
                 name: item.name,
                 price: item.price,
-                stock: item.stock,
+                stock: item.unit !== null ? item.stock / item.unit?.sum : item.stock,
                 min_stock: item.min_stock,
                 shipping_day: item.shipping_day,
-                unit_name: item.unit_name,
-                unit_price: item.unit_price,
-                unit_sum: item.unit_sum,
-                is_wholesaler: item.is_wholesaler,
+                unit_name: item.unit?.name,
+                unit_price: item.unit?.price,
+                unit_sum: item.unit?.sum,
+                is_wholesaler: item.unit === null ? false : true,
             });
             setId(item.id)
             setIsUpdate(true);
@@ -95,7 +95,18 @@ export default function Show({ auth, status, items, roles, categories }) {
             <Head title="Barang" />
             <div ref={bodyRef}></div>
 
-            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
+            {hasErrors && (
+                <div className='p-5'>
+                    <Transition
+                        show={hasErrors}
+                        enterFrom="opacity-0"
+                        leaveTo="opacity-0"
+                        className="transition ease-in-out bg-red-200 p-3 rounded-3xl"
+                    >
+                        <p className="text-red-900 dark:text-red-600 text-center font-bold text-xl">Oops! Ada kesalahan</p>
+                    </Transition>
+                </div>
+            )}
             <div className='p-5'>
                 <Transition
                     show={recentlySuccessful}
@@ -112,7 +123,7 @@ export default function Show({ auth, status, items, roles, categories }) {
                     <PrimaryButton className='my-5 w-full md:w-fit' onClick={() => setShowModel(true)}><p className='w-full text-center'>Tambah</p></PrimaryButton>
                 </div>
                 <TableItem
-                    heads={['No.', 'Kode Barang', 'Kategori', 'Nama', 'Harga (Rp)', 'Stok', 'Min. Stock', 'Status', 'Aksi']}
+                    heads={['No.', 'Kode Barang', 'Kategori', 'Nama', 'Harga Eceran (Rp)', 'Harga Grosir (Rp)', 'Stok (pcs)', 'Min. Stock', 'Status', 'Aksi']}
                     contents={items}
                     onClick={(e, item) => onClickHandle(e, item)}
                 />

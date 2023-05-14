@@ -30,7 +30,8 @@ export default function TableItem({ heads, contents, onClick }) {
                                         }) : <p className='font-light text-xs text-amber-400'>tidak memiliki kategori</p>}
                                     </TableBody>
                                     <TableBody children={item.name} />
-                                    <TableBody className={'text-right'} children={numeral(item.price).format('0,0.00')} />
+                                    <TableBody className={'text-right'} children={numeral(item.price).format('0,0')} />
+                                    <TableBody className={'text-right'} children={numeral(item.unit?.price).format('0,0')} />
                                     <TableBody className={'text-right'} children={item.stock} />
                                     <TableBody className={'text-right'} children={item.min_stock} />
                                     <TableBody className={'text-right'}>
