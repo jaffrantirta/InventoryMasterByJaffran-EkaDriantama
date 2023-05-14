@@ -34,7 +34,6 @@ export default function TableTransactionDetail({ heads, contents, onClick, liste
 
     return (
         <div>
-            <p className='font-bold text-lg text-center md:text-left my-3'>Total: {contents.total}</p>
             <div className='overflow-x-auto'>
                 <table className='w-full'>
                     <thead className=''>
