@@ -29,12 +29,13 @@ class TransactionController extends Controller
     {
         return Inertia::render('Transaction/Create', [
             'roles' => session('user_roles'),
-            'items' => Item::orderBy('name', 'asc')->where('stock', '>', 0)->get(),
+            'items' => Item::orderBy('name', 'asc')->where('stock', '>', 0)->with('unit')->get(),
             'reference_code' => now()->timestamp,
         ]);
     }
     public function store(TransactionStoreRequest $request)
     {
+        // dd($request);
         DB::beginTransaction();
 
         //get setting
@@ -42,8 +43,9 @@ class TransactionController extends Controller
         $income_account = AccountSetting::where('name', 'pendapatan-usaha')->first();
 
         $grand_total = 0;
-        foreach ($request->only(['items_selected']) as $key => $value) {
-            $grand_total = $grand_total + ($value[0]['price'] * $value[0]['qty']);
+
+        foreach ($request->input('items_selected') as $item) {
+            $grand_total += $item['price'] * $item['qty'];
         }
 
         //insert journal
@@ -83,15 +85,28 @@ class TransactionController extends Controller
 
         //insert transaction detail
         foreach ($request->input('items_selected') as $detail) {
-            $item = Item::find($detail['item_id']);
-            $item->stock = $item->stock - $detail['qty'];
+            $item = Item::with('unit')->find($detail['item_id']);
+            $final_qty = 0;
+            $total = 0;
+            $price = 0;
+            if ($detail['is_wholesaler']) {
+                $final_qty = $detail['qty'] * $item->unit->sum;
+                $price = $item->unit->price;
+                $total = $detail['qty'] * $price;
+            } else {
+                $final_qty = $detail['qty'];
+                $price = $item->price;
+                $total = $detail['qty'] * $price;
+            }
+            if ($final_qty > $item->stock) return redirect()->back()->withErrors(['Stok kurang']);
+            $item->stock = $item->stock - $final_qty;
             $item->save();
             TransactionDetail::create([
                 'transaction_id' => $transaction->id,
                 'item_id' => $detail['item_id'],
-                'price' => $detail['price'],
-                'qty' => $detail['qty'],
-                'total' => $detail['qty'] * $detail['price'],
+                'price' => $price,
+                'qty' => $final_qty,
+                'total' => $total,
             ]);
         }
 

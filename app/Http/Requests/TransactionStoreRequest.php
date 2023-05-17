@@ -28,6 +28,7 @@ class TransactionStoreRequest extends FormRequest
             'items_selected.*.item_id' => 'required|exists:items,id',
             'items_selected.*.qty' => 'required|numeric|min:0',
             'items_selected.*.price' => 'required|numeric|min:0',
+            'items_selected.*.is_wholesaler' => 'required|boolean',
         ];
     }
 }

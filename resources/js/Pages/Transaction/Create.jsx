@@ -5,7 +5,7 @@ import TextInput from '@/Components/TextInput';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import { Transition } from '@headlessui/react';
 import { Head, useForm } from '@inertiajs/react';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TableTransactionDetail from './Partials/TableTransactionDetail';
 import NavLink from '@/Components/NavLink';
 import numeral from 'numeral';
@@ -28,6 +28,10 @@ export default function Create({ roles, auth, items, reference_code }) {
         );
         setSuggestions(matches);
     };
+    useEffect(() => {
+        console.log(data.items_selected, 'useEffect');
+    }, [data.items_selected])
+
     const onSubmit = () => {
         post(route('transaction.store'))
         reset()
@@ -51,6 +55,9 @@ export default function Create({ roles, auth, items, reference_code }) {
                 item_id: item.id,
                 price: item.price,
                 subTotal: sub_total,
+                unit_name: 'pcs',
+                is_wholesaler: false,
+                item: item
             });
         }
 
@@ -113,12 +120,15 @@ export default function Create({ roles, auth, items, reference_code }) {
                     />
                     <div className='px-10 p- rounded-3xl mt-5 bg-slate-100 dark:bg-slate-700'>
                         <ul className='dark:text-white overflow-scroll font-bold h-32'>
-                            {suggestions.map((item) => (
-                                <li className='cursor-pointer hover:text-slate-300' onClick={() => {
-                                    let qty = 1
-                                    addToCart(item, qty)
-                                }} key={item.id}>{item.reference_code} - {item.name}</li>
-                            ))}
+                            {suggestions.map((item) => {
+                                // console.log(item, 'aa');
+                                return (
+                                    <li className='cursor-pointer hover:text-slate-300' onClick={() => {
+                                        let qty = 1
+                                        addToCart(item, qty)
+                                    }} key={item.id}>{item.reference_code} - {item.name}</li>
+                                )
+                            })}
                         </ul>
                     </div>
                 </div>
@@ -134,9 +144,14 @@ export default function Create({ roles, auth, items, reference_code }) {
             </div>
             <div className='p-10 dark:text-slate-200'>
                 <TableTransactionDetail
-                    heads={['No.', 'Barang', 'Jumlah', 'Harga', 'Total', 'Aksi']}
+                    heads={['No.', 'Barang', 'Jumlah', 'Satuan', 'Harga', 'Total', 'Aksi']}
                     contents={data.items_selected}
                     listenGrandTotal={e => setGrandTotal(e)}
+                    onItemsSelectedUpdate={(e) => {
+                        console.log(e, 'log');
+                        setData('items_selected', e);
+                        // Do something with the updated item if needed
+                    }}
                 // onClick={(e, item) => onClickHandle(e, item)}
                 />
             </div>
