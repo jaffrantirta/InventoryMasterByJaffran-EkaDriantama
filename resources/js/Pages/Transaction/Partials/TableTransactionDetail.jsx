@@ -3,6 +3,7 @@ import TableBody from '../../../Components/TableBody';
 import TableHeader from '../../../Components/TableHeader';
 import TextInput from '@/Components/TextInput';
 import numeral from 'numeral';
+import PrimaryButton from '@/Components/PrimaryButton';
 
 export default function TableTransactionDetail({ heads, contents, onClick, listenGrandTotal, onItemsSelectedUpdate }) {
     const [items, setItems] = useState([]);
@@ -26,6 +27,14 @@ export default function TableTransactionDetail({ heads, contents, onClick, liste
         setItems(updatedItems);
         onItemsSelectedUpdate(updatedItems);
     };
+
+    const handleRemoveItem = (indexToRemove) => {
+        const updatedItems = [...items];
+        updatedItems.splice(indexToRemove, 1);
+        setItems(updatedItems);
+        onItemsSelectedUpdate(updatedItems);
+    };
+
 
     const handleToggleWholesale = (index) => {
         const updatedItems = [...items];
@@ -76,7 +85,6 @@ export default function TableTransactionDetail({ heads, contents, onClick, liste
                     </thead>
                     <tbody>
                         {items.map((item, index) => {
-                            console.log(item);
                             return (
                                 <React.Fragment key={index}>
                                     <tr className="border-b">
@@ -95,14 +103,17 @@ export default function TableTransactionDetail({ heads, contents, onClick, liste
                                         </TableBody>
                                         <TableBody className="text-right" children={numeral(item?.price).format('0,0')} />
                                         <TableBody className="text-right" children={numeral(item?.subTotal).format('0,0')} />
-                                        <TableBody>
+                                        <TableBody className="flex justify-center gap-5">
                                             {item.unit !== null ? (
-                                                <button onClick={() => handleToggleWholesale(index)}>
-                                                    {item.is_wholesaler ? 'Change to retail' : 'Change to wholesale'}
-                                                </button>
+                                                <PrimaryButton onClick={() => handleToggleWholesale(index)}>
+                                                    {item.is_wholesaler ? 'Ubah jadi eceran' : 'Ubah jadi grosir'}
+                                                </PrimaryButton>
                                             ) : (
                                                 <></>
                                             )}
+                                            <PrimaryButton className={'bg-red-500 dark:bg-red-300'} onClick={() => handleRemoveItem(index)}>
+                                                Hapus
+                                            </PrimaryButton>
                                         </TableBody>
                                     </tr>
                                 </React.Fragment>
