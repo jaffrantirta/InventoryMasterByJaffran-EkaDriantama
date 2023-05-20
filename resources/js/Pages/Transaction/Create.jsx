@@ -13,7 +13,7 @@ import numeral from 'numeral';
 export default function Create({ roles, auth, items, reference_code }) {
     const { data, setData, post, processing, errors, reset, recentlySuccessful } = useForm({
         date: new Date().toISOString().slice(0, 10),
-        reference_code: `TR${reference_code}`,
+        reference_code: `TR${generateUniqueCode()}`,
         items_selected: [],
     });
     const [grandTotal, setGrandTotal] = useState(0)
@@ -34,7 +34,17 @@ export default function Create({ roles, auth, items, reference_code }) {
     const onSubmit = () => {
         post(route('transaction.store'))
         reset()
+        setData('reference_code', `TR${generateUniqueCode()}`)
     }
+    function generateUniqueCode() {
+        const timestamp = Date.now().toString(); // Get the current timestamp as a string
+        const randomSuffix = Math.floor(Math.random() * 1000).toString().padStart(1, '0'); // Generate a random 4-digit number
+        const code = timestamp + randomSuffix; // Combine the timestamp and random number
+
+        return code;
+    }
+
+
     const addToCart = (item, qty) => {
         const updatedItems = [...data.items_selected];
         const existingItemIndex = updatedItems.findIndex(
@@ -113,6 +123,7 @@ export default function Create({ roles, auth, items, reference_code }) {
                 <div className='w-full'>
                     <InputLabel value={'Barang'} />
                     <TextInput
+                        placeholder='Cari barang...'
                         className='w-full'
                         onChange={handleChange}
                         value={value}
@@ -132,11 +143,11 @@ export default function Create({ roles, auth, items, reference_code }) {
                 </div>
                 <div className='w-full'>
                     <InputLabel value={'Kode'} />
-                    <p className='text-6xl font-bold dark:text-white'>{data.reference_code}</p>
+                    <p className='text-3xl font-bold dark:text-white'>{data.reference_code}</p>
                 </div>
                 <div className='w-full'>
                     <InputLabel value={'Total'} />
-                    <p className='text-6xl font-bold dark:text-white'>Rp.{numeral(grandTotal).format('0,0')}</p>
+                    <p className='text-3xl font-bold dark:text-white'>Rp.{numeral(grandTotal).format('0,0')}</p>
                 </div>
 
             </div>
@@ -155,7 +166,7 @@ export default function Create({ roles, auth, items, reference_code }) {
 
             <div className='p-10 flex gap-5'>
                 <NavLink href={route('transaction.index')}>Kembali</NavLink>
-                <PrimaryButton onClick={() => onSubmit()}>Simpan</PrimaryButton>
+                <PrimaryButton disabled={processing} onClick={() => onSubmit()}>Simpan</PrimaryButton>
             </div>
 
         </Authenticated>
