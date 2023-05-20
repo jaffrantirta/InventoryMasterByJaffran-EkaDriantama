@@ -29,7 +29,6 @@ export default function Create({ roles, auth, items, reference_code }) {
         setSuggestions(matches);
     };
     useEffect(() => {
-        console.log(data.items_selected, 'useEffect');
     }, [data.items_selected])
 
     const onSubmit = () => {
@@ -121,7 +120,6 @@ export default function Create({ roles, auth, items, reference_code }) {
                     <div className='px-10 p- rounded-3xl mt-5 bg-slate-100 dark:bg-slate-700'>
                         <ul className='dark:text-white overflow-scroll font-bold h-32'>
                             {suggestions.map((item) => {
-                                // console.log(item, 'aa');
                                 return (
                                     <li className='cursor-pointer hover:text-slate-300' onClick={() => {
                                         let qty = 1
@@ -148,7 +146,6 @@ export default function Create({ roles, auth, items, reference_code }) {
                     contents={data.items_selected}
                     listenGrandTotal={e => setGrandTotal(e)}
                     onItemsSelectedUpdate={(e) => {
-                        console.log(e, 'log');
                         setData('items_selected', e);
                         // Do something with the updated item if needed
                     }}

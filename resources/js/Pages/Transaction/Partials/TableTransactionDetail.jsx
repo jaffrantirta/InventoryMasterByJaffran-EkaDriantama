@@ -19,18 +19,10 @@ export default function TableTransactionDetail({ heads, contents, onClick, liste
     const handleQuantityChange = (index, qty) => {
         const updatedItems = [...items];
         const item = updatedItems[index];
-
-        console.log(item, 'change qty');
-
-        if (item.is_wholesaler) {
-            if ((item.unit.sum * item.qty) > item.stock) {
-                console.log('stock habis');
-            }
-            updatedItems[index].qty = qty;
-        } else {
-            updatedItems[index].qty = qty;
-        }
-        updatedItems[index].subTotal = updatedItems[index].qty * updatedItems[index].item?.price;
+        let price = item.is_wholesaler ? item.unit?.price : item.price
+        updatedItems[index].qty = qty
+        updatedItems[index].subTotal = qty * price
+        item.is_wholesaler ? ((item.unit.sum * item.qty) > item.stock) ? updatedItems[index].message = 'Stok tidak cukup' : null : null
         setItems(updatedItems);
         onItemsSelectedUpdate(updatedItems);
     };
@@ -39,7 +31,6 @@ export default function TableTransactionDetail({ heads, contents, onClick, liste
         const updatedItems = [...items];
         const item = updatedItems[index];
 
-        // console.log(item);
 
         if (item.is_wholesaler) {
             updatedItems[index].is_wholesaler = false;
@@ -97,6 +88,7 @@ export default function TableTransactionDetail({ heads, contents, onClick, liste
                                                 value={numeral(item?.qty).format('0,0')}
                                                 onChange={(e) => handleQuantityChange(index, e.target.value)}
                                             />
+                                            <small>{item.message}</small>
                                         </TableBody>
                                         <TableBody>
                                             {item.unit_name}

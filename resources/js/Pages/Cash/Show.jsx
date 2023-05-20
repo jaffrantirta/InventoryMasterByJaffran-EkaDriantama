@@ -7,7 +7,6 @@ import TableCash from './Partials/TableCash'
 import ModalCash from './Partials/ModalCash'
 
 export default function Show({ auth, cashes_in, cashes_out, roles }) {
-    console.log(cashes_in);
     const [cashStatus, setCashStatus] = useState(true)
     const [cashList, setCashList] = useState(cashes_in)
     const { data, setData, post, processing, errors, reset, recentlySuccessful } = useForm({

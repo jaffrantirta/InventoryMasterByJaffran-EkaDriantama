@@ -27,7 +27,6 @@ export default function Show({ auth, items, roles, categories }) {
     });
     const submit = (e) => {
         e.preventDefault()
-        console.log(id);
         if (isUpdate) patch(route('item.update', { id: id }))
         if (isDelete) destroy(route('item.destroy', { id: id }))
         if (!isUpdate && !isDelete) post(route('item.store'))
@@ -43,7 +42,6 @@ export default function Show({ auth, items, roles, categories }) {
     }
     const onClickHandle = (e, item) => {
         if (e === 'edit') {
-            console.log(item);
             setData({
                 reference_code: item.reference_code,
                 categories: item.categories,
