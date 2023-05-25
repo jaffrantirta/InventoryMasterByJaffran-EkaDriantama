@@ -27,7 +27,7 @@ export default function Authenticated({ user, header, children, roles }) {
                                 {roles.includes('super-admin') ? <NavLink href={route('journal.index')} active={route().current('journal.index')}>Jurnal Umum</NavLink> : <></>}
                                 {/* {roles.includes('super-admin') ? <NavLink href={route('cash.index')} active={route().current('cash.index')}>Kas</NavLink> : <></>} */}
                                 {roles.includes('super-admin') ? <NavLink href={route('transaction.index')} active={route().current('transaction.index')}>Pemasukan</NavLink> : <></>}
-                                {roles.includes('super-admin') ? <NavLink>Pengeluaran</NavLink> : <></>}
+                                {roles.includes('super-admin') ? <NavLink href={route('transaction.index.purchase')} active={route().current('transaction.index.purchase')}>Pengeluaran</NavLink> : <></>}
                             </div>
                         </div>
 

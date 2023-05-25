@@ -43,7 +43,10 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::resource('cash', CashController::class);
-    Route::resource('transaction', TransactionController::class);
+    Route::resource('transaction', TransactionController::class)->except(['show']);
+    Route::get('transaction/purchase', [TransactionController::class, 'indexPurchase'])->name('transaction.index.purchase');
+    Route::get('transaction/create-purchase', [TransactionController::class, 'createPurchase'])->name('transaction.create.purchase');
+    Route::post('transaction/store-purchase', [TransactionController::class, 'storePurchase'])->name('transaction.store.purchase');
     Route::resource('category', CategoryController::class);
     Route::resource('item', ItemController::class);
     Route::resource('journal', JournalController::class);

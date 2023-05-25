@@ -34,7 +34,6 @@ class TransactionStorePurchaseRequest extends FormRequest
             'items_selected.*.price' => ['numeric', 'required'],
             'items_selected.*.stock' => ['numeric', 'required'],
             'items_selected.*.min_stock' => ['numeric'],
-            'items_selected.*.categories' => ['required', 'exists:categories,id'],
             'items_selected.*.shipping_day' => ['numeric', 'min:1'],
             'items_selected.*.unit.name' => ['max:255', 'required_if:is_wholesaler,true'],
             'items_selected.*.unit.sum' => ['numeric', 'required_if:is_wholesaler,true'],

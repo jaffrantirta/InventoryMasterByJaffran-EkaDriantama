@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Purchase extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'transaction_id'
+    ];
     public function transaction(): BelongsTo
     {
         return $this->belongsTo(Transaction::class);
