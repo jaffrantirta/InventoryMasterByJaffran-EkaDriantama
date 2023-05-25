@@ -69,7 +69,7 @@ class TransactionController extends Controller
         //insert journal
         $journalData = $request->only(['date']);
         $journalData['user_id'] = auth()->user()->id;
-        $journalData['description'] = $request->input('reference_code');
+        $journalData['description'] = 'Penjualan dengan kode transaksi : ' . $request->input('reference_code');
         $journal = Journal::create($journalData);
 
         //insert journal detail
@@ -150,7 +150,7 @@ class TransactionController extends Controller
         //insert journal
         $journalData = $request->only(['date']);
         $journalData['user_id'] = auth()->user()->id;
-        $journalData['description'] = $request->input('reference_code');
+        $journalData['description'] = 'Pembelian dengan kode transaksi : ' . $request->input('reference_code');
         $journal = Journal::create($journalData);
 
         //insert journal detail

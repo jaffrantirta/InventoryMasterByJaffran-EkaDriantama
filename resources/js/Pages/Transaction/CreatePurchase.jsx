@@ -78,7 +78,7 @@ export default function CreatePurchase({ roles, auth, items, reference_code }) {
             roles={roles}
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                Buat Transaksi
+                Buat Transaksi Pembelian
             </h2>}
         >
             <Head title="Buat Transaksi" />
