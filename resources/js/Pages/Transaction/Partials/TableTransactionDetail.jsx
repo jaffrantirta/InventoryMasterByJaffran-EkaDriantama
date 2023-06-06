@@ -5,10 +5,9 @@ import TextInput from '@/Components/TextInput';
 import numeral from 'numeral';
 import PrimaryButton from '@/Components/PrimaryButton';
 
-export default function TableTransactionDetail({ heads, contents, onClick, listenGrandTotal, onItemsSelectedUpdate }) {
+export default function TableTransactionDetail({ heads, contents, onClick, listenGrandTotal, onItemsSelectedUpdate, is_purchase }) {
     const [items, setItems] = useState([]);
     const [grandTotal, setGrandTotal] = useState(0);
-
     useEffect(() => {
         setItems(contents.map(item => ({ ...item, is_wholesaler: false })));
     }, [contents]);
@@ -28,6 +27,16 @@ export default function TableTransactionDetail({ heads, contents, onClick, liste
         onItemsSelectedUpdate(updatedItems);
     };
 
+    const handlePriceChange = (index, v_price) => {
+        console.log(v_price);
+        const updatedItems = [...items];
+        const item = updatedItems[index];
+        updatedItems[index].price = v_price
+        updatedItems[index].subTotal = item.qty * v_price
+        setItems(updatedItems);
+        onItemsSelectedUpdate(updatedItems);
+    };
+
     const handleRemoveItem = (indexToRemove) => {
         const updatedItems = [...items];
         updatedItems.splice(indexToRemove, 1);
@@ -41,22 +50,23 @@ export default function TableTransactionDetail({ heads, contents, onClick, liste
         const item = updatedItems[index];
 
 
-        if (item.is_wholesaler) {
-            updatedItems[index].is_wholesaler = false;
-            updatedItems[index].qty = item.qty
+
+        if (item.is_wholesaler === true) {
+            updatedItems[index].is_wholesaler = !updatedItems[index].is_wholesaler;
+            // updatedItems[index].qty = item.qty
             updatedItems[index].price = item.item.price
             updatedItems[index].subTotal = item.qty * item.item.price
             updatedItems[index].unit_name = 'pcs'
-            updatedItems[index].unit = item.unit
-            updatedItems[index].item = item.item
+            // updatedItems[index].unit = item.unit
+            // updatedItems[index].item = item.item
         } else {
-            updatedItems[index].is_wholesaler = true;
-            updatedItems[index].qty = item.qty
+            updatedItems[index].is_wholesaler = !updatedItems[index].is_wholesaler;
+            // updatedItems[index].qty = item.qty
             updatedItems[index].price = item.item.unit.price
             updatedItems[index].subTotal = item.qty * item.unit.price
             updatedItems[index].unit_name = item.unit.name
-            updatedItems[index].unit = item.unit
-            updatedItems[index].item = item.item
+            // updatedItems[index].unit = item.unit
+            // updatedItems[index].item = item.item
         }
 
         setItems(updatedItems);
@@ -101,7 +111,17 @@ export default function TableTransactionDetail({ heads, contents, onClick, liste
                                         <TableBody>
                                             {item.unit_name}
                                         </TableBody>
-                                        <TableBody className="text-right" children={numeral(item?.price).format('0,0')} />
+                                        {is_purchase ? (
+                                            <TableBody className="text-center">
+                                                <TextInput
+                                                    className="text-center"
+                                                    value={item?.price}
+                                                    onChange={(e) => handlePriceChange(index, e.target.value)}
+                                                />
+                                            </TableBody>
+                                        ) : (
+                                            <TableBody className="text-right" children={numeral(item?.price).format('0,0')} />
+                                        )}
                                         <TableBody className="text-right" children={numeral(item?.subTotal).format('0,0')} />
                                         <TableBody className="flex justify-center gap-5">
                                             {item.unit !== null ? (

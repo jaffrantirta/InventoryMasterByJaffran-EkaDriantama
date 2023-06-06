@@ -153,6 +153,7 @@ export default function CreatePurchase({ roles, auth, items, reference_code }) {
             </div>
             <div className='p-10 dark:text-slate-200'>
                 <TableTransactionDetail
+                    is_purchase={true}
                     heads={['No.', 'Barang', 'Jumlah', 'Satuan', 'Harga', 'Total', 'Aksi']}
                     contents={data.items_selected}
                     listenGrandTotal={e => setGrandTotal(e)}

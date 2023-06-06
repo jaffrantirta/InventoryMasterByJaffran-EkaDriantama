@@ -31,7 +31,7 @@ export default function Create({ roles, auth, accounts }) {
             title: 'Masukan detail jurnal!',
             html:
                 '<div class="flex flex-col text-left">' +
-                '<label>Kas</label><br>' +
+                '<label>Akun</label><br>' +
                 `<select class="rounded-full">${selectHtml}</select><br>` +
                 '</div>' +
                 '<div class="flex flex-col text-left">' +
