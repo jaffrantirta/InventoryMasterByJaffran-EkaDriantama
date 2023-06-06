@@ -24,7 +24,7 @@ class TransactionController extends Controller
         $page = $request->has('page') ? $request->input('page') : 1;
         return Inertia::render('Transaction/Show', [
             'roles' => session('user_roles'),
-            'transactions' => Transaction::latest()->paginate(5, ['*'], 'page', $page)
+            'transactions' => Transaction::doesntHave('purchase')->latest()->paginate(5, ['*'], 'page', $page)
         ]);
     }
     public function indexPurchase(Request $request)
@@ -32,7 +32,7 @@ class TransactionController extends Controller
         $page = $request->has('page') ? $request->input('page') : 1;
         return Inertia::render('Transaction/ShowPurchase', [
             'roles' => session('user_roles'),
-            'transactions' => Transaction::latest()->paginate(5, ['*'], 'page', $page)
+            'transactions' => Transaction::whereHas('purchase')->latest()->paginate(5, ['*'], 'page', $page)
         ]);
     }
     public function create()
@@ -139,7 +139,7 @@ class TransactionController extends Controller
 
         //get setting
         $cash_account = AccountSetting::where('name', 'kas')->first();
-        $income_account = AccountSetting::where('name', 'pendapatan-usaha')->first();
+        $income_account = AccountSetting::where('name', 'pembelian')->first();
 
         $grand_total = 0;
 

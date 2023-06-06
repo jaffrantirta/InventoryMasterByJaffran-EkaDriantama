@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Account>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AccountSetting>
  */
-class AccountFactory extends Factory
+class AccountSettingFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,10 +17,8 @@ class AccountFactory extends Factory
     public function definition(): array
     {
         return [
-            'classification' => 1,
-            'code' => 100,
             'name' => fake()->name(),
-            'initial_balance' => 0,
+            'account_id' => 1,
         ];
     }
 }
