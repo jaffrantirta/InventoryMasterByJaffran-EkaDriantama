@@ -20,14 +20,14 @@ export default function Authenticated({ user, header, children, roles }) {
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                {roles.includes('super-admin') ? <NavLink href={route('dashboard')} active={route().current('dashboard')}>Dashboard</NavLink> : <></>}
+                                {roles.includes('super-admin') || roles.includes('cashier') ? <NavLink href={route('dashboard')} active={route().current('dashboard')}>Dashboard</NavLink> : <></>}
                                 {roles.includes('super-admin') ? <NavLink href={route('account.index')} active={route().current('account.index')}>Akun</NavLink> : <></>}
                                 {roles.includes('super-admin') ? <NavLink href={route('category.index')} active={route().current('category.index')}>Kategori</NavLink> : <></>}
-                                {roles.includes('super-admin') ? <NavLink href={route('item.index')} active={route().current('item.index')}>Barang</NavLink> : <></>}
-                                {roles.includes('super-admin') ? <NavLink href={route('journal.index')} active={route().current('journal.index')}>Jurnal Umum</NavLink> : <></>}
-                                {/* {roles.includes('super-admin') ? <NavLink href={route('cash.index')} active={route().current('cash.index')}>Kas</NavLink> : <></>} */}
-                                {roles.includes('super-admin') ? <NavLink href={route('transaction.index')} active={route().current('transaction.index')}>Pemasukan</NavLink> : <></>}
-                                {roles.includes('super-admin') ? <NavLink href={route('transaction.index.purchase')} active={route().current('transaction.index.purchase')}>Pengeluaran</NavLink> : <></>}
+                                {roles.includes('super-admin') || roles.includes('cashier') ? <NavLink href={route('item.index')} active={route().current('item.index')}>Barang</NavLink> : <></>}
+                                {roles.includes('super-admin') || roles.includes('cashier') ? <NavLink href={route('journal.index')} active={route().current('journal.index')}>Jurnal Umum</NavLink> : <></>}
+                                {/* {roles.includes('super-admin') || roles.includes('cashier') ? <NavLink href={route('cash.index')} active={route().current('cash.index')}>Kas</NavLink> : <></>} */}
+                                {roles.includes('super-admin') || roles.includes('cashier') ? <NavLink href={route('transaction.index')} active={route().current('transaction.index')}>Pemasukan</NavLink> : <></>}
+                                {roles.includes('super-admin') || roles.includes('cashier') ? <NavLink href={route('transaction.index.purchase')} active={route().current('transaction.index.purchase')}>Pengeluaran</NavLink> : <></>}
                             </div>
                         </div>
 
@@ -96,14 +96,14 @@ export default function Authenticated({ user, header, children, roles }) {
 
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="pt-2 pb-3 space-y-1">
-                        {roles.includes('super-admin') ? <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>Dashboard</ResponsiveNavLink> : <></>}
+                        {roles.includes('super-admin') || roles.includes('cashier') ? <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>Dashboard</ResponsiveNavLink> : <></>}
                         {roles.includes('super-admin') ? <ResponsiveNavLink href={route('account.index')} active={route().current('account.index')}>Akun</ResponsiveNavLink> : <></>}
                         {roles.includes('super-admin') ? <ResponsiveNavLink href={route('category.index')} active={route().current('category.index')}>Kategori</ResponsiveNavLink> : <></>}
-                        {roles.includes('super-admin') ? <ResponsiveNavLink href={route('item.index')} active={route().current('item.index')}>Barang</ResponsiveNavLink> : <></>}
-                        {roles.includes('super-admin') ? <ResponsiveNavLink href={route('journal.index')} active={route().current('journal.index')}>Jurnal Umum</ResponsiveNavLink> : <></>}
-                        {/* {roles.includes('super-admin') ? <ResponsiveNavLink href={route('cash.index')} active={route().current('cash.index')}>Kas</ResponsiveNavLink> : <></>} */}
-                        {roles.includes('super-admin') ? <ResponsiveNavLink href={route('transaction.index')} active={route().current('transaction.index')}>Pemasukan</ResponsiveNavLink> : <></>}
-                        {roles.includes('super-admin') ? <ResponsiveNavLink href={route('transaction.create')} active={route().current('transaction.create')}>Pengeluaran</ResponsiveNavLink> : <></>}
+                        {roles.includes('super-admin') || roles.includes('cashier') ? <ResponsiveNavLink href={route('item.index')} active={route().current('item.index')}>Barang</ResponsiveNavLink> : <></>}
+                        {roles.includes('super-admin') || roles.includes('cashier') ? <ResponsiveNavLink href={route('journal.index')} active={route().current('journal.index')}>Jurnal Umum</ResponsiveNavLink> : <></>}
+                        {/* {roles.includes('super-admin') || roles.includes('cashier') ? <ResponsiveNavLink href={route('cash.index')} active={route().current('cash.index')}>Kas</ResponsiveNavLink> : <></>} */}
+                        {roles.includes('super-admin') || roles.includes('cashier') ? <ResponsiveNavLink href={route('transaction.index')} active={route().current('transaction.index')}>Pemasukan</ResponsiveNavLink> : <></>}
+                        {roles.includes('super-admin') || roles.includes('cashier') ? <ResponsiveNavLink href={route('transaction.create')} active={route().current('transaction.create')}>Pengeluaran</ResponsiveNavLink> : <></>}
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
