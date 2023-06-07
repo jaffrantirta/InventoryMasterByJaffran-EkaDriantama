@@ -1,5 +1,6 @@
 <?php
 
+use App\Exports\TransactionExport;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ItemController;
@@ -51,6 +52,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('item', ItemController::class);
     Route::resource('journal', JournalController::class);
     Route::resource('account', AccountController::class);
+
+
+    //exports
+    Route::get('exports/excel/transaction', function () {
+        return Excel::download(new TransactionExport, 'transaction.xlsx');
+    });
 });
 
 require __DIR__ . '/auth.php';
