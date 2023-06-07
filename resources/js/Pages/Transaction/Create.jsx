@@ -47,28 +47,28 @@ export default function Create({ roles, auth, items, reference_code }) {
 
     const addToCart = (item, qty) => {
         const updatedItems = [...data.items_selected];
-        const existingItemIndex = updatedItems.findIndex(
-            (selectedItem) => selectedItem.item_id === item.id
-        );
+        // const existingItemIndex = updatedItems.findIndex(
+        //     (selectedItem) => selectedItem.item_id === item.id
+        // );
 
-        let final_qty = (existingItemIndex !== -1) ? updatedItems[existingItemIndex].qty + qty : qty
-        let sub_total = final_qty * item.price
+        // let final_qty = (existingItemIndex !== -1) ? updatedItems[existingItemIndex].qty + qty : qty
+        let sub_total = qty * item.price
 
-        if (existingItemIndex !== -1) {
-            updatedItems[existingItemIndex].qty = final_qty;
-            updatedItems[existingItemIndex].subTotal = sub_total;
-        } else {
-            updatedItems.push({
-                ...item,
-                qty: qty,
-                item_id: item.id,
-                price: item.price,
-                subTotal: sub_total,
-                unit_name: 'pcs',
-                is_wholesaler: false,
-                item: item
-            });
-        }
+        // if (existingItemIndex !== -1) {
+        //     updatedItems[existingItemIndex].qty = final_qty;
+        //     updatedItems[existingItemIndex].subTotal = sub_total;
+        // } else {
+        updatedItems.push({
+            ...item,
+            qty: qty,
+            item_id: item.id,
+            price: item.price,
+            subTotal: sub_total,
+            unit_name: 'pcs',
+            is_wholesaler: false,
+            item: item
+        });
+        // }
 
         setData('items_selected', updatedItems);
     };
