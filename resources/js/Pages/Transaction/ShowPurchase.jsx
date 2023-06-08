@@ -39,7 +39,7 @@ export default function ShowPurchase({ auth, roles, transactions }) {
                         />
                         <Link href={searchUrl}><PrimaryButton className='my-5 w-full md:w-fit'><p className='w-full text-center'>Cari</p></PrimaryButton></Link>
                     </div>
-                    <PrimaryButton className='my-5 w-full md:w-fit'><p className='w-full text-center'><Link href={route('transaction.create.purchase')}>Tambah</Link></p></PrimaryButton>
+                    <Link href={route('transaction.create.purchase')}><PrimaryButton className='my-5 w-full md:w-fit'><p className='w-full text-center'>Tambah</p></PrimaryButton></Link>
                 </div>
                 <TableTransaction
                     heads={['No.', 'Kode ref.', 'Tanggal', 'Grand Total', 'Aksi']}
