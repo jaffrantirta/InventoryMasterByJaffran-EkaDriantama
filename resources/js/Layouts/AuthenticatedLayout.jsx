@@ -23,6 +23,7 @@ export default function Authenticated({ user, header, children, roles }) {
                                 {roles.includes('super-admin') || roles.includes('cashier') ? <NavLink href={route('dashboard')} active={route().current('dashboard')}>Dashboard</NavLink> : <></>}
                                 {roles.includes('super-admin') ? <NavLink href={route('account.index')} active={route().current('account.index')}>Akun</NavLink> : <></>}
                                 {roles.includes('super-admin') ? <NavLink href={route('category.index')} active={route().current('category.index')}>Kategori</NavLink> : <></>}
+                                {roles.includes('super-admin') ? <NavLink href={route('user.index')} active={route().current('user.index')}>Pegawai</NavLink> : <></>}
                                 {roles.includes('super-admin') || roles.includes('cashier') ? <NavLink href={route('item.index')} active={route().current('item.index')}>Barang</NavLink> : <></>}
                                 {roles.includes('super-admin') || roles.includes('cashier') ? <NavLink href={route('journal.index')} active={route().current('journal.index')}>Jurnal Umum</NavLink> : <></>}
                                 {/* {roles.includes('super-admin') || roles.includes('cashier') ? <NavLink href={route('cash.index')} active={route().current('cash.index')}>Kas</NavLink> : <></>} */}
@@ -99,6 +100,7 @@ export default function Authenticated({ user, header, children, roles }) {
                         {roles.includes('super-admin') || roles.includes('cashier') ? <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>Dashboard</ResponsiveNavLink> : <></>}
                         {roles.includes('super-admin') ? <ResponsiveNavLink href={route('account.index')} active={route().current('account.index')}>Akun</ResponsiveNavLink> : <></>}
                         {roles.includes('super-admin') ? <ResponsiveNavLink href={route('category.index')} active={route().current('category.index')}>Kategori</ResponsiveNavLink> : <></>}
+                        {roles.includes('super-admin') ? <ResponsiveNavLink href={route('user.index')} active={route().current('user.index')}>Pegawai</ResponsiveNavLink> : <></>}
                         {roles.includes('super-admin') || roles.includes('cashier') ? <ResponsiveNavLink href={route('item.index')} active={route().current('item.index')}>Barang</ResponsiveNavLink> : <></>}
                         {roles.includes('super-admin') || roles.includes('cashier') ? <ResponsiveNavLink href={route('journal.index')} active={route().current('journal.index')}>Jurnal Umum</ResponsiveNavLink> : <></>}
                         {/* {roles.includes('super-admin') || roles.includes('cashier') ? <ResponsiveNavLink href={route('cash.index')} active={route().current('cash.index')}>Kas</ResponsiveNavLink> : <></>} */}

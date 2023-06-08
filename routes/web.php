@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserController;
 use App\Models\Transaction;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -52,12 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('item', ItemController::class);
     Route::resource('journal', JournalController::class);
     Route::resource('account', AccountController::class);
-
-
-    //exports
-    Route::get('exports/excel/transaction', function () {
-        return Excel::download(new TransactionExport, 'transaction.xlsx');
-    });
+    Route::resource('user', UserController::class);
 });
 
 require __DIR__ . '/auth.php';
