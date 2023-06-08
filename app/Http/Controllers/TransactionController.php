@@ -157,7 +157,7 @@ class TransactionController extends Controller
 
         DB::commit();
 
-        return Redirect::route('transaction.create');
+        return Redirect::route('transaction.index');
     }
     public function storePurchase(TransactionStorePurchaseRequest $request)
     {
@@ -242,7 +242,7 @@ class TransactionController extends Controller
 
         DB::commit();
 
-        return Redirect::route('transaction.create.purchase');
+        return Redirect::route('transaction.index.purchase');
     }
     public function showDetail(string $id)
     {
