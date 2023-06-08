@@ -66,7 +66,7 @@ class JournalController extends Controller
 
         DB::commit();
 
-        return Redirect::route('journal.create');
+        return Redirect::route('journal.index');
     }
 
     /**
