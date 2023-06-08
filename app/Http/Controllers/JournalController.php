@@ -52,6 +52,10 @@ class JournalController extends Controller
         $journal = Journal::create($journalData);
 
         foreach ($request->input('journal_details') as $detail) {
+            //update balance
+            $account = Account::find($detail['account_id']);
+            $account->update(['initial_balance' => $account->initial_balance + $detail['debit']]);
+            $account->update(['initial_balance' => $account->initial_balance - $detail['credit']]);
             JournalDetail::create([
                 'journal_id' => $journal->id,
                 'account_id' => $detail['account_id'],

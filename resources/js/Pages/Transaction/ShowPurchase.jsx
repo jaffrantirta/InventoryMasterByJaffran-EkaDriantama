@@ -3,6 +3,7 @@ import Authenticated from '@/Layouts/AuthenticatedLayout'
 import { Head, Link, usePage } from '@inertiajs/react'
 import React, { useState } from 'react'
 import TableTransaction from './Partials/TableTransaction';
+import TextInput from '@/Components/TextInput';
 
 export default function ShowPurchase({ auth, roles, transactions }) {
     const onClickHandle = (e, item) => {

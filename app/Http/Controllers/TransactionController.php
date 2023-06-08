@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TransactionStorePurchaseRequest;
 use App\Http\Requests\TransactionStoreRequest;
 use App\Models\AccountSetting;
+use App\Models\Account;
 use App\Models\Cash;
 use App\Models\Item;
 use App\Models\Journal;
@@ -56,7 +57,7 @@ class TransactionController extends Controller
 
     $transactions = $query->paginate(5, ['*'], 'page', $page);
 
-    return Inertia::render('Transaction/Show', [
+    return Inertia::render('Transaction/ShowPurchase', [
         'roles' => session('user_roles'),
         'transactions' => $transactions,
         'search' => $search // Pass the search query to the view
@@ -98,6 +99,12 @@ class TransactionController extends Controller
         $journalData['user_id'] = auth()->user()->id;
         $journalData['description'] = 'Penjualan dengan kode transaksi : ' . $request->input('reference_code');
         $journal = Journal::create($journalData);
+
+        //update balance
+        $cash = Account::find($cash_account->account_id);
+        $income = Account::find($income_account->account_id);
+        $cash->update(['initial_balance' => $cash->initial_balance + $grand_total]);
+        $income->update(['initial_balance' => $income->initial_balance + $grand_total]);
 
         //insert journal detail
         JournalDetail::create([
@@ -179,6 +186,12 @@ class TransactionController extends Controller
         $journalData['user_id'] = auth()->user()->id;
         $journalData['description'] = 'Pembelian dengan kode transaksi : ' . $request->input('reference_code');
         $journal = Journal::create($journalData);
+
+        //update balance
+        $cash = Account::find($cash_account->account_id);
+        $income = Account::find($income_account->account_id);
+        $cash->update(['initial_balance' => $cash->initial_balance - $grand_total]);
+        $income->update(['initial_balance' => $income->initial_balance - $grand_total]);
 
         //insert journal detail
         
