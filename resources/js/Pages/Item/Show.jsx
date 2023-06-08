@@ -1,10 +1,11 @@
 import PrimaryButton from '@/Components/PrimaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { useRef, useState } from 'react';
 import { Transition } from '@headlessui/react';
 import TableItem from '@/Pages/Item/Partials/TableItem';
 import ModalItem from './Partials/ModalItem';
+import TextInput from '@/Components/TextInput';
 
 export default function Show({ auth, items, roles, categories }) {
     const bodyRef = useRef(null)
@@ -84,6 +85,16 @@ export default function Show({ auth, items, roles, categories }) {
         if (e.field === 'unit_sum') setData('unit_sum', e.value)
         if (e.field === 'is_wholesaler') setData('is_wholesaler', e.value)
     }
+
+    const [search, setSearch] = useState('');
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
+    };
+
+    const { url } = usePage();
+
+    const searchUrl = search ? url.includes('?search') ? `${url.split('?search')[0]}?search=${encodeURIComponent(search)}` : `${url}?search=${encodeURIComponent(search)}` : url;
     return (
         <AuthenticatedLayout
             roles={roles}
@@ -117,7 +128,15 @@ export default function Show({ auth, items, roles, categories }) {
             </div>
 
             <div className='p-10 dark:text-slate-200'>
-                <div className='flex justify-end'>
+                <div className='flex justify-between'>
+                    <div className='flex gap-5'>
+                        <TextInput
+                            className="my-4"
+                            placeholder="pencarian..."
+                            onChange={handleSearchChange}
+                        />
+                        <Link href={searchUrl}><PrimaryButton className='my-5 w-full md:w-fit'><p className='w-full text-center'>Cari</p></PrimaryButton></Link>
+                    </div>
                     <PrimaryButton className='my-5 w-full md:w-fit' onClick={() => setShowModel(true)}><p className='w-full text-center'>Tambah</p></PrimaryButton>
                 </div>
                 <TableItem

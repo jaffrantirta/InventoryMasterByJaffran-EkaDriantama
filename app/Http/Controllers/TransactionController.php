@@ -20,20 +20,47 @@ use Illuminate\Support\Facades\DB;
 class TransactionController extends Controller
 {
     public function index(Request $request)
-    {
-        $page = $request->has('page') ? $request->input('page') : 1;
-        return Inertia::render('Transaction/Show', [
-            'roles' => session('user_roles'),
-            'transactions' => Transaction::doesntHave('purchase')->latest()->paginate(5, ['*'], 'page', $page)
-        ]);
+{
+    $search = $request->query('search');
+    $page = $request->query('page') ?? 1;
+
+    $query = Transaction::doesntHave('purchase')->latest();
+
+    if ($search) {
+        $query->where(function ($query) use ($search) {
+            $query->where('reference_code', 'like', '%' . $search . '%');
+        });
     }
+
+    $transactions = $query->paginate(5, ['*'], 'page', $page);
+
+    return Inertia::render('Transaction/Show', [
+        'roles' => session('user_roles'),
+        'transactions' => $transactions,
+        'search' => $search // Pass the search query to the view
+    ]);
+}
+
     public function indexPurchase(Request $request)
     {
-        $page = $request->has('page') ? $request->input('page') : 1;
-        return Inertia::render('Transaction/ShowPurchase', [
-            'roles' => session('user_roles'),
-            'transactions' => Transaction::whereHas('purchase')->latest()->paginate(5, ['*'], 'page', $page)
-        ]);
+        $search = $request->query('search');
+    $page = $request->query('page') ?? 1;
+
+    $query = Transaction::whereHas('purchase')->latest();
+
+    if ($search) {
+        $query->where(function ($query) use ($search) {
+            $query->where('reference_code', 'like', '%' . $search . '%');
+        });
+    }
+
+    $transactions = $query->paginate(5, ['*'], 'page', $page);
+
+    return Inertia::render('Transaction/Show', [
+        'roles' => session('user_roles'),
+        'transactions' => $transactions,
+        'search' => $search // Pass the search query to the view
+    ]);
     }
     public function create()
     {

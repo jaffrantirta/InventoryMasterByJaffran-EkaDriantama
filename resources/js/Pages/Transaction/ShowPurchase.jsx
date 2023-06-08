@@ -1,7 +1,7 @@
 import PrimaryButton from '@/Components/PrimaryButton';
 import Authenticated from '@/Layouts/AuthenticatedLayout'
-import { Head, Link } from '@inertiajs/react'
-import React from 'react'
+import { Head, Link, usePage } from '@inertiajs/react'
+import React, { useState } from 'react'
 import TableTransaction from './Partials/TableTransaction';
 
 export default function ShowPurchase({ auth, roles, transactions }) {
@@ -10,6 +10,15 @@ export default function ShowPurchase({ auth, roles, transactions }) {
             setShowModel(false)
         }
     }
+    const [search, setSearch] = useState('');
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
+    };
+
+    const { url } = usePage();
+
+    const searchUrl = search ? url.includes('?search') ? `${url.split('?search')[0]}?search=${encodeURIComponent(search)}` : `${url}?search=${encodeURIComponent(search)}` : url;
     return (
         <Authenticated
             roles={roles}
@@ -21,7 +30,15 @@ export default function ShowPurchase({ auth, roles, transactions }) {
             <Head title="Transaksi" />
 
             <div className='p-10 dark:text-slate-200'>
-                <div className='flex justify-end'>
+                <div className='flex justify-between'>
+                    <div className='flex gap-5'>
+                        <TextInput
+                            className="my-4"
+                            placeholder="pencarian..."
+                            onChange={handleSearchChange}
+                        />
+                        <Link href={searchUrl}><PrimaryButton className='my-5 w-full md:w-fit'><p className='w-full text-center'>Cari</p></PrimaryButton></Link>
+                    </div>
                     <PrimaryButton className='my-5 w-full md:w-fit'><p className='w-full text-center'><Link href={route('transaction.create.purchase')}>Tambah</Link></p></PrimaryButton>
                 </div>
                 <TableTransaction

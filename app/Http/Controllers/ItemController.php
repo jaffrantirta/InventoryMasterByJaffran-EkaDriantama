@@ -15,15 +15,27 @@ use Inertia\Response;
 
 class ItemController extends Controller
 {
-    public function index()
-    {
-        return Inertia::render('Item/Show', [
-            'status' => session('status'),
-            'roles' => session('user_roles'),
-            'items' => Item::latest()->with('categories')->with('unit')->paginate(),
-            'categories' => Category::orderBy('name')->get()
-        ]);
-    }
+    public function index(Request $request)
+{
+    $search = $request->query('search');
+
+    $items = Item::latest()
+        ->with('categories')
+        ->with('unit')
+        ->when($search, function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        })
+        ->paginate();
+
+    return Inertia::render('Item/Show', [
+        'status' => session('status'),
+        'roles' => session('user_roles'),
+        'items' => $items,
+        'categories' => Category::orderBy('name')->get(),
+        'search' => $search // Pass the search query to the view
+    ]);
+}
+
     public function store(ItemRequest $request)
     {
         DB::beginTransaction();

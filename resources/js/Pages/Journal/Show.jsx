@@ -1,10 +1,11 @@
 import PrimaryButton from '@/Components/PrimaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { useRef, useState } from 'react';
 import { Transition } from '@headlessui/react';
 import TableJournal from '@/Pages/Journal/Partials/Tablejournal';
 import ModalJournal from './Partials/ModalJournal';
+import TextInput from '@/Components/TextInput';
 
 export default function Show({ auth, journals, roles }) {
     const bodyRef = useRef(null)
@@ -35,6 +36,15 @@ export default function Show({ auth, journals, roles }) {
         if (e.field === 'price') setData('price', e.value)
         if (e.field === 'stock') setData('stock', e.value)
     }
+    const [search, setSearch] = useState('');
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
+    };
+
+    const { url } = usePage();
+
+    const searchUrl = search ? url.includes('?search') ? `${url.split('?search')[0]}?search=${encodeURIComponent(search)}` : `${url}?search=${encodeURIComponent(search)}` : url;
     return (
         <AuthenticatedLayout
             roles={roles}
@@ -58,7 +68,15 @@ export default function Show({ auth, journals, roles }) {
             </div>
 
             <div className='p-10 dark:text-slate-200'>
-                <div className='flex justify-end'>
+                <div className='flex justify-between'>
+                    <div className='flex gap-5'>
+                        <TextInput
+                            className="my-4"
+                            placeholder="pencarian..."
+                            onChange={handleSearchChange}
+                        />
+                        <Link href={searchUrl}><PrimaryButton className='my-5 w-full md:w-fit'><p className='w-full text-center'>Cari</p></PrimaryButton></Link>
+                    </div>
                     <PrimaryButton className='my-5 w-full md:w-fit'><p className='w-full text-center'><Link href={route('journal.create')}>Tambah</Link></p></PrimaryButton>
                 </div>
                 <TableJournal

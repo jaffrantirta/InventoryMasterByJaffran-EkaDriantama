@@ -15,13 +15,28 @@ use Illuminate\Support\Facades\DB;
 class JournalController extends Controller
 {
     public function index(Request $request)
-    {
-        $page = $request->has('page') ? $request->input('page') : 1;
-        return Inertia::render('Journal/Show', [
-            'roles' => session('user_roles'),
-            'journals' => Journal::with('journal_details')->with('journal_details.account')->latest()->paginate(5, ['*'], 'page', $page)
-        ]);
+{
+    $search = $request->query('search');
+    $page = $request->query('page') ?? 1;
+
+    $query = Journal::with('journal_details')->with('journal_details.account')
+        ->latest();
+
+    if ($search) {
+        $query->whereHas('journal_details', function ($query) use ($search) {
+            $query->where('description', 'like', '%' . $search . '%');
+        });
     }
+
+    $journals = $query->paginate(5, ['*'], 'page', $page);
+
+    return Inertia::render('Journal/Show', [
+        'roles' => session('user_roles'),
+        'journals' => $journals,
+        'search' => $search // Pass the search query to the view
+    ]);
+}
+
     public function create()
     {
         return Inertia::render('Journal/Create', [
