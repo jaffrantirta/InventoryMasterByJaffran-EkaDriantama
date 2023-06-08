@@ -4,6 +4,8 @@ import React, { useEffect } from 'react'
 import TableBody from '../../../Components/TableBody';
 import TableHeader from '../../../Components/TableHeader';
 import moment from 'moment';
+import PrimaryButton from '@/Components/PrimaryButton';
+import { Link } from '@inertiajs/react';
 
 export default function TableTransaction({ heads, contents, onClick }) {
     return (
@@ -25,6 +27,11 @@ export default function TableTransaction({ heads, contents, onClick }) {
                                         <TableBody children={item.reference_code} />
                                         <TableBody className={'text-center'} children={moment(item.date).format('LL')} />
                                         <TableBody children={item.grand_total} />
+                                        <TableBody>
+                                            <Link href={route('transaction.detail', { id: item.id })}>
+                                                <PrimaryButton>Lihat detail</PrimaryButton>
+                                            </Link>
+                                        </TableBody>
                                     </tr>
                                 </React.Fragment>
                             )

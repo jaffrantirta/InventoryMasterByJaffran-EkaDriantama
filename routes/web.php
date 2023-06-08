@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TransactionDetailController;
 use App\Http\Controllers\UserController;
 use App\Models\Transaction;
 use Illuminate\Foundation\Application;
@@ -41,6 +42,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('cash', CashController::class);
     Route::resource('transaction', TransactionController::class)->except(['show']);
+    Route::get('transaction-detail/{id}', [TransactionController::class, 'showDetail'])->name('transaction.detail');
     Route::get('transaction/purchase', [TransactionController::class, 'indexPurchase'])->name('transaction.index.purchase');
     Route::get('transaction/create-purchase', [TransactionController::class, 'createPurchase'])->name('transaction.create.purchase');
     Route::post('transaction/store-purchase', [TransactionController::class, 'storePurchase'])->name('transaction.store.purchase');

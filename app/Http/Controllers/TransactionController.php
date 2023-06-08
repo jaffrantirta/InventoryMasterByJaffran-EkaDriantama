@@ -244,13 +244,12 @@ class TransactionController extends Controller
 
         return Redirect::route('transaction.create.purchase');
     }
-    public function edit(Transaction $transaction)
+    public function showDetail(string $id)
     {
-        //
-    }
-    public function update(Request $request, Transaction $transaction)
-    {
-        //
+        return Inertia::render('Transaction/Detail', [
+            'roles' => session('user_roles'),
+            'transaction' => Transaction::with('transaction_details.item')->where('id', $id)->first(),
+        ]);
     }
     public function destroy(Transaction $transaction)
     {

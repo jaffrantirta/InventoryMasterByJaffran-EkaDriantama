@@ -3,16 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\TransactionDetail;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class TransactionDetailController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return Inertia::render('Transaction/Detail', [
+            'roles' => session('user_roles'),
+            'transaction_detail' => TransactionDetail::with('item')->with('transaction')->where('transaction_id'),
+        ]);
+    }
+    public function showDetail(Transaction $transaction)
+    {
+        return Inertia::render('Transaction/Detail', [
+            'roles' => session('user_roles'),
+            'transaction' => $transaction->with('transaction_details.item')->where('id', $transaction->id)->first(),
+        ]);
     }
 
     /**
