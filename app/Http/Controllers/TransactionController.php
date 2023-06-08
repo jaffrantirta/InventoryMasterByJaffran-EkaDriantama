@@ -181,15 +181,17 @@ class TransactionController extends Controller
         $journal = Journal::create($journalData);
 
         //insert journal detail
-        JournalDetail::create([
-            'journal_id' => $journal->id,
-            'account_id' => $cash_account->account_id,
-            'debit' => $grand_total,
-            'credit' => 0,
-        ]);
+        
         JournalDetail::create([
             'journal_id' => $journal->id,
             'account_id' => $income_account->account_id,
+            'debit' => $grand_total,
+            'credit' => 0,
+        ]);
+
+        JournalDetail::create([
+            'journal_id' => $journal->id,
+            'account_id' => $cash_account->account_id,
             'debit' => 0,
             'credit' => $grand_total,
         ]);
