@@ -34,6 +34,7 @@ export default function Show({ auth, status, accounts, roles }) {
         bodyRef.current.scrollTop = 0
     }
     const onClickHandle = (e, item) => {
+        console.log(item)
         if (e === 'edit') {
             setData({
                 name: item.name,

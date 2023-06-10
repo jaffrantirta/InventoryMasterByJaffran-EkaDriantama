@@ -29,10 +29,10 @@ class AccountController extends Controller
         Account::create($request->validated())->save();
         return Redirect::route('account.index');
     }
-    public function update(AccountRequest $request): RedirectResponse
-    {
+    public function update(AccountRequest $request,$id): RedirectResponse
+    { //dd($request->id);
         // if (!auth()->user()->hasPermissionTo('update-account')) return redirect()->back()->withErrors(['message' => 'You do not have permission to access this resource.']);
-        Account::find($request->id)->update($request->validated());
+        Account::find($id)->update($request->validated());
         return Redirect::route('account.index');
     }
     public function destroy($id): RedirectResponse
