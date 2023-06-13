@@ -11,6 +11,7 @@ use App\Http\Controllers\JournalController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionDetailController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReportController;
 use App\Models\Transaction;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +52,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('journal', JournalController::class);
     Route::resource('account', AccountController::class);
     Route::resource('user', UserController::class);
+
+    //export
+    Route::get('export/stock', [ReportController::class, 'export_stock'])->name('export.stock');
 });
 
 require __DIR__ . '/auth.php';
