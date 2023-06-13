@@ -24,6 +24,7 @@ class TransactionStoreRequest extends FormRequest
         return [
             'reference_code' => 'required|unique:transactions,reference_code',
             'date' => 'required|date',
+            'discount' => 'numeric',
             'items_selected' => 'required|array|min:1',
             'items_selected.*.item_id' => 'required|exists:items,id',
             'items_selected.*.qty' => 'required|numeric|min:0',

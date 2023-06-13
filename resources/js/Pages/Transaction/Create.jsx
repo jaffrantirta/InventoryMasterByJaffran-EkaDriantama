@@ -15,6 +15,7 @@ export default function Create({ roles, auth, items, reference_code }) {
         date: new Date().toISOString().slice(0, 10),
         reference_code: `TR${generateUniqueCode()}`,
         items_selected: [],
+        discount: 0,
     });
     const [grandTotal, setGrandTotal] = useState(0)
     const [value, setValue] = useState('');
@@ -159,7 +160,10 @@ export default function Create({ roles, auth, items, reference_code }) {
                     listenGrandTotal={e => setGrandTotal(e)}
                     onItemsSelectedUpdate={(e) => {
                         setData('items_selected', e);
-                        // Do something with the updated item if needed
+                        setData('discount', e)
+                    }}
+                    onDiscountChanged={(e) => {
+                        setData('discount', e)
                     }}
                 // onClick={(e, item) => onClickHandle(e, item)}
                 />

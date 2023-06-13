@@ -94,6 +94,8 @@ class TransactionController extends Controller
             $grand_total += $item['price'] * $item['qty'];
         }
 
+        if($request->input('discount'))$grand_total = $grand_total - $request->input('discount');
+
         //insert journal
         $journalData = $request->only(['date']);
         $journalData['user_id'] = auth()->user()->id;

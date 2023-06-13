@@ -15,7 +15,8 @@ class Transaction extends Model
         'reference_code',
         'cash_id',
         'user_id',
-        'grand_total'
+        'grand_total',
+        'discount'
     ];
     public function user(): BelongsTo
     {

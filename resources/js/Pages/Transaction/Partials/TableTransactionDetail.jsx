@@ -5,16 +5,25 @@ import TextInput from '@/Components/TextInput';
 import numeral from 'numeral';
 import PrimaryButton from '@/Components/PrimaryButton';
 
-export default function TableTransactionDetail({ heads, contents, onClick, listenGrandTotal, onItemsSelectedUpdate, is_purchase }) {
+export default function TableTransactionDetail({ heads, contents, onClick, listenGrandTotal, onItemsSelectedUpdate, is_purchase, onDiscountChanged }) {
     const [items, setItems] = useState([]);
     const [grandTotal, setGrandTotal] = useState(0);
+    const [discount, setDiscount] = useState(0);
+
     useEffect(() => {
         setItems(contents.map(item => ({ ...item, is_wholesaler: false })));
     }, [contents]);
 
     useEffect(() => {
         calculateGrandTotal();
-    }, [items]);
+    }, [items, discount]);
+
+    const handleDiscountChange = (e) => {
+        const discountValue = parseFloat(e.target.value);
+        setDiscount(discountValue);
+        onDiscountChanged(discountValue)
+      };
+      
 
     const handleQuantityChange = (index, qty) => {
         const updatedItems = [...items];
@@ -76,11 +85,14 @@ export default function TableTransactionDetail({ heads, contents, onClick, liste
     const calculateGrandTotal = () => {
         let total = 0;
         items.forEach((item) => {
-            total += item.subTotal || 0;
+          total += item.subTotal || 0;
         });
-        listenGrandTotal(total);
-        setGrandTotal(total);
-    };
+      
+        const discountedTotal = total - discount; // Apply the discount
+        listenGrandTotal(discountedTotal);
+        setGrandTotal(discountedTotal);
+      };
+      
 
     return (
         <div>
@@ -124,13 +136,13 @@ export default function TableTransactionDetail({ heads, contents, onClick, liste
                                         )}
                                         <TableBody className="text-right" children={numeral(item?.subTotal).format('0,0')} />
                                         <TableBody className="flex justify-center gap-5">
-                                            {item.unit !== null ? (
+                                            {/* {item.unit !== null ? (
                                                 <PrimaryButton onClick={() => handleToggleWholesale(index)}>
                                                     {item.is_wholesaler ? 'Ubah jadi eceran' : 'Ubah jadi grosir'}
                                                 </PrimaryButton>
                                             ) : (
                                                 <></>
-                                            )}
+                                            )} */}
                                             <PrimaryButton className={'bg-red-500 dark:bg-red-300'} onClick={() => handleRemoveItem(index)}>
                                                 Hapus
                                             </PrimaryButton>
@@ -143,8 +155,20 @@ export default function TableTransactionDetail({ heads, contents, onClick, liste
                 </table>
             </div>
             <div className="text-right mt-4">
-                <p className="font-bold">Total: {numeral(grandTotal).format('0,0')}</p>
-            </div>
+  <div>
+    <label htmlFor="discountInput" className="mr-2">
+      Discount:
+    </label>
+    <TextInput
+      id="discountInput"
+      type="number"
+      value={discount}
+      onChange={handleDiscountChange}
+    />
+  </div>
+  <p className="font-bold">Total: {numeral(grandTotal).format('0,0')}</p>
+</div>
+
         </div>
     );
 }
