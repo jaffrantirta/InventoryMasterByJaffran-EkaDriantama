@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use Dompdf\Dompdf;
 use App\Models\Item;
 use App\Models\Journal;
+use App\Models\StockHistory;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Carbon\Carbon;
 
 class ReportController extends Controller
 {
@@ -68,6 +70,59 @@ class ReportController extends Controller
 
         // Output the generated PDF to the browser
         $dompdf->stream($type.'.pdf', ['Attachment' => false]);
+    }
+
+    public function export_stock_history()
+    {
+        // Create a new Dompdf instance
+        $dompdf = new Dompdf();
+
+        $start_date = Carbon::createFromFormat('Y-m-d', request()->query('start_date'))->startOfDay();
+        $end_date = Carbon::createFromFormat('Y-m-d', request()->query('end_date'))->endOfDay();
+
+        if ($start_date === null || $end_date === null) {
+            return 'Masukkan tanggal awal dan akhir.';
+        }
+
+        $data = StockHistory::with('item')
+        ->whereBetween('created_at', [$start_date, $end_date])
+        ->get();
+
+         // Generate the table HTML with borders
+         $html = '<table style="border-collapse: collapse; width: 100%;">';
+         $html .= '<thead>';
+         $html .= '<tr>';
+         $html .= '<th style="border: 1px solid #000; padding: 8px;">No.</th>';
+         $html .= '<th style="border: 1px solid #000; padding: 8px;">Nama Barang</th>';
+         $html .= '<th style="border: 1px solid #000; padding: 8px;">Stok masuk/keluar</th>';
+         $html .= '<th style="border: 1px solid #000; padding: 8px;">Stok terakhir</th>';
+         $html .= '<th style="border: 1px solid #000; padding: 8px;">Tanggal</th>';
+         $html .= '</tr>';
+         $html .= '</thead>';
+         $html .= '<tbody>';
+         foreach ($data as $key => $value) {
+            $html .= '<tr>';
+            $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$key.'</td>';
+            $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value['item']['name'].'</td>';
+            $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value['stock'].'</td>';
+            $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value['latest_stock'].'</td>';
+            $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value['created_at'].'</td>';
+            $html .= '</tr>';
+         }
+         $html .= '</tbody>';
+         $html .= '</table>';
+ 
+         // Load the HTML content
+         $dompdf->loadHtml($html);
+
+        // (Optional) Set paper size and orientation
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to the browser
+        $dompdf->stream('stock-history.pdf', ['Attachment' => false]);
     }
 
     public function export_journal()

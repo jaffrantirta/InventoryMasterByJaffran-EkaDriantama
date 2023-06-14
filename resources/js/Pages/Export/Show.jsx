@@ -119,7 +119,7 @@ export default function Show({ auth, items, roles, categories }) {
                             <p>Download Jurnal Umum</p>
                         </a>
                         <a
-                            href={route("export.stock", {
+                            href={route("export.stock.history", {
                                 start_date: data.start_date,
                                 end_date: data.end_date,
                             })}

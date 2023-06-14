@@ -13,6 +13,7 @@ use App\Models\JournalDetail;
 use App\Models\Purchase;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
+use App\Models\StockHistory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
@@ -153,7 +154,8 @@ class TransactionController extends Controller
                 $total = $detail['qty'] * $price;
             }
             if ($final_qty > $item->stock) return redirect()->back()->withErrors(['Stok kurang']);
-            $item->stock = $item->stock - $final_qty;
+            $stock = $item->stock - $final_qty;
+            $item->stock = $stock;
             $item->save();
             TransactionDetail::create([
                 'transaction_id' => $transaction->id,
@@ -161,6 +163,11 @@ class TransactionController extends Controller
                 'price' => $price,
                 'qty' => $final_qty,
                 'total' => $total,
+            ]);
+            StockHistory::create([
+                'item_id' => $detail['item_id'],
+                'stock' => -$final_qty,
+                'latest_stock' => $stock
             ]);
         }
 
@@ -246,7 +253,8 @@ class TransactionController extends Controller
                 $price = $item->price;
                 $total = $detail['qty'] * $price;
             }
-            $item->stock = $item->stock + $final_qty;
+            $stock = $item->stock + $final_qty;
+            $item->stock = $stock;
             $item->save();
             TransactionDetail::create([
                 'transaction_id' => $transaction->id,
@@ -254,6 +262,11 @@ class TransactionController extends Controller
                 'price' => $price,
                 'qty' => $final_qty,
                 'total' => $total,
+            ]);
+            StockHistory::create([
+                'item_id' => $detail['item_id'],
+                'stock' => $final_qty,
+                'latest_stock' => $stock
             ]);
         }
 

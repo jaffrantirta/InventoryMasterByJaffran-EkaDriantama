@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
     //export
     Route::get('export/stock', [ReportController::class, 'export_stock'])->name('export.stock');
     Route::get('export/journal', [ReportController::class, 'export_journal'])->name('export.journal');
+    Route::get('export/stock/history', [ReportController::class, 'export_stock_history'])->name('export.stock.history');
     Route::get('export', [ReportController::class, 'index'])->name('export.index');
 });
 
