@@ -7,9 +7,15 @@ use Dompdf\Dompdf;
 use App\Models\Item;
 use App\Models\Journal;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class ReportController extends Controller
 {
+    public function index()
+    {
+        $data['roles'] = session('user_roles');
+        return Inertia::render('Export/Show', $data);
+    }
     public function export_stock()
     {
         // Create a new Dompdf instance
@@ -72,30 +78,54 @@ class ReportController extends Controller
         $start_date = request()->query('start_date');
         $end_date = request()->query('end_date');
 
-        if($start_date === null || $end_date === null) return 'masukan tanggal awal dan akhir';
+        if ($start_date === null || $end_date === null) {
+            return 'Masukkan tanggal awal dan akhir.';
+        }
 
-        $query = Journal::with('journal_details')
-        ->with('journal_details.account')
-        ->latest();
+        $data = Journal::with('journal_details')
+            ->with('journal_details.account')
+            ->whereBetween('date', [$start_date, $end_date])
+            ->latest()
+            ->get();
+
+
+        // dd($data);
 
          // Generate the table HTML with borders
          $html = '<table style="border-collapse: collapse; width: 100%;">';
          $html .= '<thead>';
          $html .= '<tr>';
          $html .= '<th style="border: 1px solid #000; padding: 8px;">No.</th>';
-         $html .= '<th style="border: 1px solid #000; padding: 8px;">Nama Barang</th>';
-         $html .= '<th style="border: 1px solid #000; padding: 8px;">Minimal stok</th>';
-         $html .= '<th style="border: 1px solid #000; padding: 8px;">Stok saat ini</th>';
+         $html .= '<th style="border: 1px solid #000; padding: 8px;">Tanggal</th>';
+         $html .= '<th style="border: 1px solid #000; padding: 8px;">Deskripsi</th>';
+         $html .= '<th style="border: 1px solid #000; padding: 8px;">Kode akun</th>';
+         $html .= '<th style="border: 1px solid #000; padding: 8px;">Reff</th>';
+         $html .= '<th style="border: 1px solid #000; padding: 8px;">Debit</th>';
+         $html .= '<th style="border: 1px solid #000; padding: 8px;">Kredit</th>';
          $html .= '</tr>';
          $html .= '</thead>';
          $html .= '<tbody>';
          foreach ($data as $key => $value) {
             $html .= '<tr>';
             $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$key.'</td>';
-            $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value['name'].'</td>';
-            $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value['min_stock'].'</td>';
-            $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value['stock'].'</td>';
+            $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value['date'].'</td>';
+            $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value['description'].'</td>';
+            $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value[''].'</td>';
+            $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value[''].'</td>';
+            $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value[''].'</td>';
+            $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value[''].'</td>';
             $html .= '</tr>';
+            foreach ($value['journal_details'] as $key => $value) {
+                $html .= '<tr>';
+                $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value[''].'</td>';
+                $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value[''].'</td>';
+                $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value[''].'</td>';
+                $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value['account']['code'].'</td>';
+                $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value['account']['name'].'</td>';
+                $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value['debit'].'</td>';
+                $html .= '<td style="border: 1px solid #000; padding: 8px;">'.$value['credit'].'</td>';
+                $html .= '</tr>';
+            }
          }
          $html .= '</tbody>';
          $html .= '</table>';
@@ -110,6 +140,6 @@ class ReportController extends Controller
         $dompdf->render();
 
         // Output the generated PDF to the browser
-        $dompdf->stream($type.'.pdf', ['Attachment' => false]);
+        $dompdf->stream('ass.pdf', ['Attachment' => false]);
     }
 }

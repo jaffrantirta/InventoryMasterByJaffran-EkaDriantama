@@ -55,6 +55,8 @@ Route::middleware('auth')->group(function () {
 
     //export
     Route::get('export/stock', [ReportController::class, 'export_stock'])->name('export.stock');
+    Route::get('export/journal', [ReportController::class, 'export_journal'])->name('export.journal');
+    Route::get('export', [ReportController::class, 'index'])->name('export.index');
 });
 
 require __DIR__ . '/auth.php';
