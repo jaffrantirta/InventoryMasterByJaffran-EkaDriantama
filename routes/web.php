@@ -58,6 +58,10 @@ Route::middleware('auth')->group(function () {
     Route::get('export/journal', [ReportController::class, 'export_journal'])->name('export.journal');
     Route::get('export/stock/history', [ReportController::class, 'export_stock_history'])->name('export.stock.history');
     Route::get('export', [ReportController::class, 'index'])->name('export.index');
+    Route::get('export/transaction', [ReportController::class, 'export_transaction'])->name('export.transaction');
+    Route::get('export/transaction/detail', [ReportController::class, 'export_transaction_detail'])->name('export.transaction.detail');
+    
+    
 });
 
 require __DIR__ . '/auth.php';

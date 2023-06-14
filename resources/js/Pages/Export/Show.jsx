@@ -133,6 +133,38 @@ export default function Show({ auth, items, roles, categories }) {
                             />
                             <p>Download Kartu Stok</p>
                         </a>
+                        <a
+                            href={route("export.transaction", {
+                                start_date: data.start_date,
+                                end_date: data.end_date,
+                                type: "in",
+                            })}
+                            className="flex border-2 rounded-3xl px-5 py-2 mb-5 cursor-pointer"
+                            target="_blank"
+                        >
+                            <img
+                                className="w-5 h-5 mr-2"
+                                src="https://cdn-icons-png.flaticon.com/512/724/724933.png"
+                                alt="Download Icon"
+                            />
+                            <p>Download laporan pemasukan</p>
+                        </a>
+                        <a
+                            href={route("export.transaction", {
+                                start_date: data.start_date,
+                                end_date: data.end_date,
+                                type: "out",
+                            })}
+                            className="flex border-2 rounded-3xl px-5 py-2 mb-5 cursor-pointer"
+                            target="_blank"
+                        >
+                            <img
+                                className="w-5 h-5 mr-2"
+                                src="https://cdn-icons-png.flaticon.com/512/724/724933.png"
+                                alt="Download Icon"
+                            />
+                            <p>Download laporan pengeluaran</p>
+                        </a>
                     </div>
                 </form>
             </div>

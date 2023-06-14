@@ -34,4 +34,8 @@ class Transaction extends Model
     {
         return $this->hasOne(Purchase::class);
     }
+    public function item(): belongsTo
+    {
+        return $this->belongsTo(Item::class);
+    }
 }
