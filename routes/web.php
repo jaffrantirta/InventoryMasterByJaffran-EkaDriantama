@@ -60,6 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::get('export', [ReportController::class, 'index'])->name('export.index');
     Route::get('export/transaction', [ReportController::class, 'export_transaction'])->name('export.transaction');
     Route::get('export/transaction/detail', [ReportController::class, 'export_transaction_detail'])->name('export.transaction.detail');
+    Route::get('export/item/history/stock', [ReportController::class, 'export_item_stock'])->name('export.item.history.stock');
     
     
 });
